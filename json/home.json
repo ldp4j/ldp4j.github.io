@@ -22,7 +22,7 @@
     "who": {
         "sections": [{
             "title": "Who we are",
-            "paragraphs": ["We are a small group of developers based in the Center for Open Middleware who are part of the W3C Linked Data Platform working group."]
+            "paragraphs": ["We are a small group of developers based at the Center for Open Middleware who are part of the W3C Linked Data Platform working group."]
         }],
         "button": "Know the team"
     }
