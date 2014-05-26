@@ -1,0 +1,74 @@
+{
+    "heading": "About LDP4j",
+    "developers": {
+        "title": "Development Team",
+        "intro": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vel fringilla leo, a ornare purus. Praesent ut lorem accumsan, congue purus sagittis, tristique mi. Mauris faucibus ipsum consectetur augue lacinia laoreet. Duis condimentum ligula massa, nec suscipit neque ultricies id.",
+        "people": [
+            {
+                "name": "MIGUEL ESTEBAN GUTIÉRREZ",
+                "img": "img/miguel.png",
+                "desc": "Miguel Esteban Gutiérrez is a software engineer working for the Center for Open Middleware and the Ontology Engineering Group. He is leading the development of LDP4j and is member of the W3C Linked Data Platform Working Group.",
+                "gh": "mestebangutierrez",
+                "email": "miguel.esteban@centeropenmiddleware.com"
+            },
+            {
+                "name": "NANDANA MIHINDUKULASOORIYA",
+                "img": "img/nandana.png",
+                "desc": "Software engineer working for Center for Open Middleware and Ontology Engineering Group. He is also a member of the W3C Linked Data Platform working group and serve as the editor of the LDP 1.0 Primer.",
+                "gh": "nandana",
+                "twitter": "nandanamihindu",
+                "email": "nandana@centeropenmiddleware.com"
+            },
+            {
+                "name": "RAÚL GARCIA CASTRO",
+                "img": "img/raul.png",
+                "desc": "Assistant Professor at Universidad Politécnica de Madrid and works in the Ontology Engineering Group in several European and Spanish research projects. His research focuses on the benchmarking of semantic technologies, ontological engineering, and application integration. He has participated in the definition of the W3C LDP Test Cases.",
+                "gh": "rgcmme",
+                "email": "rgarcia@fi.upm.es",
+                "twitter": "rgcmme"
+            }
+        ]
+    },
+    "thanks": {
+        "title": "Thanks",
+        "intro": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vel fringilla leo, a ornare purus. Praesent ut lorem accumsan, congue purus sagittis, tristique mi. Mauris faucibus ipsum consectetur augue lacinia laoreet. Duis condimentum ligula massa, nec suscipit neque ultricies id.",
+        "people": [
+            {
+                "name": "ASUNCIÓN GÓMEZ-PÉREZ",
+                "desc": "Full Professor at the Universidad Politécnica de Madrid (UPM) and director of the Ontology Engineering Group based at the Computer Science School at UPM.",
+                "email": "asun@fi.upm.es"
+            },
+            {
+                "name": "FERNANDO SERENA",
+                "desc": "Software engineer working for Center for Open Middleware and Ontology Engineering Group. He has been involved in the definition of the W3C LDP Test Cases an in the development of this website.",
+                "gh": "fserena",
+                "email": "kudhmud@gmail.com"
+            }
+        ]
+    },
+    "supporters": {
+        "title": "Our supporters",
+        "intro": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vel fringilla leo, a ornare purus. Praesent ut lorem accumsan, congue purus sagittis, tristique mi. Mauris faucibus ipsum consectetur augue lacinia laoreet. Duis condimentum ligula massa, nec suscipit neque ultricies id.",
+        "inst": [
+            {
+                "name": "Center for Open Middleware",
+                "desc": "The Center for Open Middleware (COM) is  a collaboration between Universidad Politécnica de Madrid and Banco Santander. They devise an open, self-sustained, innovation-fostering, software ecosystem around middleware. COM is the incubator of this open ecosystem: turns ideas into innovation and organize agents to keep this innovation alive.",
+                "img": "img/com-nt.png",
+                "link": "http://www.centeropenmiddleware.com"
+            },
+            {
+                "name": "Universidad Politécnica de Madrid",
+                "desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vel fringilla leo, a ornare purus. Praesent ut lorem accumsan, congue purus sagittis, tristique mi. Mauris faucibus ipsum consectetur augue lacinia laoreet. Duis condimentum ligula massa, nec suscipit neque ultricies id.",
+                "img": "img/upm.png",
+                "link": "http://www.upm.es"
+            },
+            {
+                "name": "Ontology Engineering Group",
+                "desc": "The Ontology Engineering Group (OEG) is based at the Computer Science School at Universidad Politécnica de Madrid (UPM). It ranks eighth among the two hundred research groups from UPM and it is widely recognised in Europe in the areas of Ontology Engineering, Semantic Infrastructure, Linked Data, and Data Integration. Our main research areas are: Ontological Engineering, (Social) Semantic Web and Linked Data, Natural Language, Semantic e-Science and the Future Internet.",
+                "img": "img/oeg.png",
+                "link": "http://www.oeg-upm.net"
+            }
+
+        ]
+    }
+}

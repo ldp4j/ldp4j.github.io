@@ -1,0 +1,131 @@
+<div style="position:relative">
+    <div ng-show="twShow" ng-mouseenter="inTwPanel()" ng-mouseleave="outTwPanel()" id="twitter" class="animate-show-hide" style="position:absolute; right:0px; width: 300px;height: 250px; z-index: 100; box-shadow: rgba(0, 0, 0, 0.278431) 1px 1px 10px; border-radius:6px">
+        <a class="twitter-timeline" href="https://twitter.com/LDP4j" data-widget-id="469077475268382721">Tweets by @LDP4j</a>
+        <script>
+            ! function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0],
+                    p = /^http:/.test(d.location) ? 'http' : 'https';
+                if (!d.getElementById(id)) {
+                    js = d.createElement(s);
+                    js.id = id;
+                    js.src = p + "://platform.twitter.com/widgets.js";
+                    fjs.parentNode.insertBefore(js, fjs);
+                }
+            }(document, "script", "twitter-wjs");
+        </script>
+    </div>
+</div>
+<div style="padding-top:10px; padding-bottom:25px; margin-bottom:0px" class="jumbotron jheader">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-6">
+                <h2>LDP4j Community</h2>
+            </div>
+            <div align="right" class="col-md-6 col-sm-6 col-xs-6">
+                <img style="max-width:50px; margin-right:10px; padding-top:10px" src="img/github.png">
+                <img style="max-width:50px; margin-right:10px; padding-top:10px" src="img/twitter.png">
+                <img style="max-width:60px; margin-right:10px; padding-top:12px" src="img/email-big.png">
+            </div>
+        </div>
+    </div>
+</div>
+<div ng-show="ready" style="box-shadow: 0px 6px 50px rgba(0, 0, 0, 0.28); padding-top:20px; padding-bottom: 40px">
+    <div class="container" style="padding-top:20px">
+        <p>{{intro}}</p>
+        <div class="row">
+            <div class="col-md-4">
+                <panel id="panel-it" sections="it.content" button="LDP4j Issues" action="goto('https://github.com/ldp4j/ldp4j/issues')" fixed></panel>
+            </div>
+            <div class="col-md-4">
+                <panel id="panel-tw" sections="tw.content" button="LDP4j Twitter" action="goto('https://twitter.com/LDP4j')" fixed>
+                </panel>
+            </div>
+            <div class="col-md-4">
+                <panel id="panel-sr" sections="sr.content" button="LDP4j Repositories" action="goto('https://github.com/ldp4j/ldp4j')" fixed></panel>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <panel id="panel-ml" sections="ml.content" inject="lists" padding="15em" fixed></panel>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="lists" style="display:none;">
+    <div class="col-md-12 col-sm-12 col-xs-12" style="margin-left:0px">
+        <div class="table-responsive" style="margin-top:15px; position:absolute">
+            <table class="table">
+                <tr>
+                    <th>List</th>
+                    <th>Subscribe</th>
+                    <th>Unsubscribe</th>
+                    <th>Post</th>
+                </tr>
+                <tr>
+                    <td><a href="https://groups.google.com/d/forum/ldp4j-commits" target="_blank">LDP4j Commits</td>
+                <td><a href="mailto:ldp4j-commits+subscribe@googlegroups.com">ldp4j-commits+subscribe@googlegroups.com</a>
+                    </td>
+                    <td><a href="mailto:ldp4j-commits+unsubscribe@googlegroups.com">ldp4j-commits+unsubscribe@googlegroups.com</a>
+                    </td>
+                    <td><a href="mailto:ldp4j-commits@googlegroups.com">ldp4j-commits@googlegroups.com</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td><a href="https://groups.google.com/d/forum/ldp4j-dev" target="_blank">LDP4j Developers</a>
+                    </td>
+                    <td>
+                        <a href="mailto:ldp4j-dev+subscribe@googlegroups.com">ldp4j-dev+subscribe@googlegroups.com</a>
+                    </td>
+                    <td>
+                        <a href="mailto:ldp4j-dev+unsubscribe@googlegroups.com">ldp4j-dev+unsubscribe@googlegroups.com</a>
+                    </td>
+                    <td>
+                        <a href="mailto:ldp4j-dev@googlegroups.com">ldp4j-dev@googlegroups.com</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td><a href="https://groups.google.com/d/forum/ldp4j-user" target="_blank">LDP4j User</a>
+                    </td>
+                    <td><a href="mailto:ldp4j-user+subscribe@googlegroups.com">ldp4j-user+subscribe@googlegroups.com</a>
+                    </td>
+                    <td><a href="mailto:ldp4j-user+unsubscribe@googlegroups.com">ldp4j-user+unsubscribe@googlegroups.com</a>
+                    </td>
+                    <td>
+                        <a href="mailto:ldp4j-user@googlegroups.com">ldp4j-user@googlegroups.com</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!--<div class=" container " style="margin-top: 20px ">
+        <div class="row ">
+            <div class="col-md-12 ">
+                <dimage id="image1 " src="http://placekitten.com/1170/300 " alt="Un gatito "></dimage>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="container ">
+        <div class="row ">
+            <column id="community " sections="intro " class="col-md-4 "></column>
+            <div class="col-md-4 ">
+                <dimage id="image2 " src="http://placekitten.com/300/300 " alt="Otro gatito "></dimage>
+            </div>
+            <div class="col-md-4 ">
+                <dimage id="image3 " src="http://placekitten.com/600/300 " alt="Otro gatito más "></dimage>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="container ">
+        <div class="row ">
+            <div class="col-md-6 ">
+                <dimage id="image4 " src="http://placekitten.com/700/350 " alt="El último gatito "></dimage>
+            </div>
+            <column id="community " sections="intro " class="col-md-6 "></column>
+        </div>
+    </div>->
+
+</div>

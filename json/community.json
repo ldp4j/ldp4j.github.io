@@ -1,0 +1,38 @@
+{
+    "intro": "As an open-source project, the LDP4j community has many entry points. We welcome your participation however it suits your level of interest.",
+    "it": {
+        "sections": [
+            {
+                "title": "Issue Tracker",
+                "paragraphs": [
+            "The project tracks bugs, feature-requests, and other issues through the issue-tracking facilities provided by GitHub."]
+            }]
+    },
+    "sr": {
+        "sections": [
+            {
+                "title": "Source Repository",
+                "paragraphs": [
+            "All the LDP4j source code is managed using the distributed version system Git and hosted in the ldp4j repository of the ldp4j organization at github.com. Both Git and GitHub are awesome for collaboration! To make improvements or bug fixes to the LDP4j project, simply fork the project, commit your changes and send a pull request."]
+            }
+        ]
+    },
+    "tw": {
+        "sections": [
+            {
+                "title": "Twitter",
+                "paragraphs": [
+            "The project is also on Twitter. Follow our @ldp4j feed. Here we'll let you now about our latest achievements, releases, and more!"]
+            }
+        ]
+    },
+    "ml": {
+        "sections": [
+            {
+                "title": "Mailing Lists",
+                "paragraphs": [
+            "We've set up different mailing lists to foster discussion in the community, served by Google Groups. Users, a mailing list to hosts discussions for developers using LDP4j in their projects. Development, a mailing list reserved for discussions about contributing to LDP4j. Commits, a mailing list for tracking the updates to the source repository."]
+            }
+        ]
+    }
+}

@@ -1,0 +1,30 @@
+{
+    "header": "W3C Linked Data Platform",
+    "first": {
+        "sections": [
+            {
+                "title": "What is LDP?",
+                "paragraphs": [
+            "The W3C Linked Data Platform (LDP) specification defines a set of best practices and a simple approach for a read-write Linked Data architecture, based on HTTP access to web resources that describe their state using the RDF data model. The LDP protocol extends the HTTP protocol with clarifications and restrictions when accessing, updating, creating, and deleting resources from servers that expose their resources as Linked Data. Further, it provides a set of best practices for read/write Linked Data applications. Having a W3C standard such as the Linked Data Platform protocol allows building interoperable read/write Linked Data applications.",
+            "The two main concepts defined in LDP include:"
+                ]
+            }]
+    },
+    "last": {
+        "sections": [
+            {
+                "title": "What is the current status of the specification?",
+                "paragraphs": [
+            "The Linked Data Platform Working Group started in 2012 with the mission of producing a W3C Recommendation for HTTP-based (RESTful) application integration patterns using read/write Linked Data. The working group started with the Linked Data Basic Profile 1.0 W3C Member Submission from IBM and developed the specification based on the contributions and feedback from the different members and organizations of the working group.",
+            "During the last two years the working group had five face-to-face meetings and a series of weekly teleconferences to discuss the LDP specifications. Based on those, the working group has published several public drafts to get public comments which were addressed. Currently the specification is on its way to become a Candidate Recommendation."
+                ]
+            }]
+    },
+    "docs": {
+        "title": "Related documentation",
+        "spec": "LDP Specification",
+        "primer": "LDP Primer",
+        "tcs": "LDP Test cases",
+        "bp": "LDP Best practices"
+    }
+}

@@ -1,0 +1,78 @@
+<div style="padding-top:10px; padding-bottom:25px; margin-bottom:0px" class="jumbotron jheader">
+    <div class="container">
+        <h2>{{header}}</h2> 
+    </div>
+</div>
+<div style="box-shadow: 0px 6px 50px rgba(0, 0, 0, 0.28); padding-top: 20px; padding-bottom: 30px">
+    <div class="container" ng-show="contentReady">
+        <div class="row">
+            <div class="col-md-5" style="padding-right: 25px">
+                <column id="ldp-first" sections="first"></column>
+                <ul>
+                    <li>Linked Data Platform Resources (LDPRs) which are any HTTP resource that conforms to the constraints defined in the LDP specification.</li>
+                    <li>Linked Data Platform Containers (LDPCs) which are specializations of LDPRs that act as collection resources that help organizing LDPRs and creating new LDPRs as their members.</li>
+                </ul>
+                <column id="ldp-last" sections="last"></column>
+            </div>
+            <div>
+                <div class="col-md-7 col-sm-12 col-xs-12" style="margin-bottom: 10px">
+                    <h3>{{docs.title}}</h3>
+                </div>
+                <div class="col-md-3 col-xs-6 col-sm-4">
+                    <div class="thumbnail">
+                        <a href="http://www.w3.org/TR/ldp/" target="_blank">
+                            <img src="img/ldp-spec.png">
+                        </a>
+                    </div>
+                    <div>
+                        <h5 style="text-align:center">{{docs.spec}}</h5> 
+                    </div>
+                </div>
+                <div class="col-md-3 col-xs-6 col-sm-4">
+                    <div class="thumbnail">
+                        <a href="https://dvcs.w3.org/hg/ldpwg/raw-file/tip/ldp-primer/ldp-primer.html" target="_blank">
+                            <img src="img/ldp-primer.png">
+                        </a>
+                    </div>
+                    <div>
+                        <h5 style="text-align:center">{{docs.primer}}</h5> 
+                    </div>
+                </div>
+                <div class="col-md-3 col-xs-6 col-sm-4">
+                    <div class="thumbnail">
+                        <a href="https://dvcs.w3.org/hg/ldpwg/raw-file/tip/Test%20Cases/LDP%20Test%20Cases.html" target="_blank">
+                            <img src="img/ldp-tcs.png">
+                        </a>
+                    </div>
+                    <div>
+                        <h5 style="text-align:center">{{docs.tcs}}</h5> 
+                    </div>
+                </div>
+                <div class="col-md-3 col-xs-6 col-sm-4">
+                    <div class="thumbnail">
+                        <a href="https://dvcs.w3.org/hg/ldpwg/raw-file/default/ldp-bp/ldp-bp.html" target="_blank">
+                            <img src="img/ldp-bp.png">
+                        </a>
+                    </div>
+                    <div>
+                        <h5 style="text-align:center">{{docs.bp}}</h5> 
+                    </div>
+                </div>
+                <div class="col-md-7 col-sm-12 col-xs-12">
+                    <h3>Where can I find more information?</h3>
+                    <ul>
+                        <li>Linked Data Platform 1.0 Specification
+                            <br>
+                            <a href="http://www.w3.org/TR/ldp/" target="_blank">http://www.w3.org/TR/ldp/</a>
+                        </li>
+                        <li>Linked Data Platform 1.0 Use Cases
+                            <br>
+                            <a href="http://www.w3.org/TR/ldp-ucr/" target="_blank">http://www.w3.org/TR/ldp-ucr/</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!--<wrapper title="iframe.title" url="iframe.url" id="ldp-wrapper" class="col-md-7 animate-show-hide" ng-show="iframe.ready" ready="updateWrapper"></wrapper>-->
+        </div>
+    </div>

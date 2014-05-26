@@ -1,0 +1,96 @@
+<div style="padding-top:10px; padding-bottom:25px; margin-bottom:0px" class="jumbotron jheader">
+    <div class="container">
+        <h2>{{texts.heading}}</h2> 
+    </div>
+</div>
+<div ng-show="ready" style="box-shadow: 0px 6px 50px rgba(0, 0, 0, 0.28); padding-top:20px; padding-bottom: 40px">
+    <div class="row" style="margin-bottom:15px">
+        <div align="center" class="col-md-12">
+            <h2>{{texts.developers.title}}</h2>
+            <div class="container" align="left">
+                <!--<p>{{texts.developers.intro}}</p>-->
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top:30px">
+        <div class="container">
+            <div ng-repeat="person in texts.developers.people" class="col-md-6 col-sm-12 col-xs-12" style="margin-bottom:20px">
+                <div class="row" align="center">
+                    <div class="col-md-3 col-sm-3 col-xs-4">
+                        <img style="max-width:100%; padding-top:0.3em" ng-src="{{person.img}}">
+                    </div>
+                    <div class="col-md-9 col-sm-9 col-xs-8" align="left">
+                        <kbd style="margin-top:0px">{{person.name}}</kbd> 
+                        <div>{{person.desc}}</div>
+                        <div style="padding-top:0.4em">
+                            <div ng-if="person.twitter != undefined">
+                                <contact user={{person.twitter}} logo="img/twitter-small.png" link="mailto:{{person.twitter}}"></contact>
+                            </div>
+                            <div ng-if="person.gh != undefined">
+                                <contact user={{person.gh}} logo="img/github-small.png" link="https://github.com/{{person.gh}}"></contact>
+                            </div>
+                            <div ng-if="person.email != undefined">
+                                <contact user={{person.email}} logo="img/email.png" link="mailto:{{person.email}}"></contact>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row" style="margin-bottom:15px">
+        <div align="center" class="col-md-12">
+            <h2>{{texts.thanks.title}}</h2>
+            <div class="container" align="left">
+                <!--<p>{{texts.thanks.intro}}</p>-->
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top:30px">
+        <div class="container">
+            <div ng-repeat="person in texts.thanks.people" class="col-md-6 col-sm-12 col-xs-12" style="margin-bottom:20px">
+                <div class="row" align="center">
+                    <div class="col-md-12 col-sm-12 col-xs-12" align="left">
+                        <kbd>{{person.name}}</kbd> 
+                        <div>{{person.desc}}</div>
+                        <div style="padding-top: 0.4em">
+                            <div ng-if="person.twitter != undefined">
+                                <contact user={{person.twitter}} logo="img/twitter-small.png" link="https://twitter.com/{{person.twitter}}"></contact>
+                            </div>
+                            <div ng-if="person.gh != undefined">
+                                <contact user={{person.gh}} logo="img/github-small.png" link="https://github.com/{{person.gh}}"></contact>
+                            </div>
+                            <div ng-if="person.email != undefined">
+                                <contact user={{person.email}} logo="img/email.png" link="mailto:{{person.email}}"></contact>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--<div class="row" style="margin-top:20px; margin-bottom: 30px">
+        <div align="center" class="col-md-12">
+            <h2>{{texts.supporters.title}}</h2>
+            <div class="container" align="left">
+                <p>{{texts.supporters.intro}}</p>
+            </div>
+        </div>
+    </div>
+    <div ng-repeat="inst in texts.supporters.inst" class="row" style="margin-bottom:20px">
+        <div class="container">
+            <div class="col-md-12">
+                <div style="margin-bottom:20px" align="center" class="col-md-2 col-sm-3">
+                    <a ng-href="{{inst.link}}" target="_blank">
+                        <img ng-src="{{inst.img}}" style="max-width:100%">
+                    </a>
+                </div>
+                <div class="col-md-10 col-sm-9">
+                    <h3 style="margin-top:0px">{{inst.name}}</h3>
+                    <div>{{inst.desc}}</div>
+                </div>
+            </div>
+        </div>
+    </div>-->
+</div>

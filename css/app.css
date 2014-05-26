@@ -1,0 +1,96 @@
+/* app css stylesheet */
+
+.iframe-container {
+    position: relative;
+    padding-bottom: 0;
+    padding-top: 0px;
+    height: 100%;
+    overflow: hidden;
+}
+.iframe-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.animate-show-hide.ng-hide-add,
+.animate-show-hide.ng-hide-remove {
+    -webkit-transition: 0.3s linear all;
+    transition: 0.3s linear all;
+    /* remember to add this */
+    display: block!important;
+    opacity: 1;
+}
+.animate-show-hide.ng-hide {
+    opacity: 0;
+}
+.view-animate {
+    opacity: 1.0;
+}
+.view-animate.ng-enter {
+    -webkit-transition: all linear 0.5s;
+    transition: all linear 0.5s;
+    display: block!important;
+    opacity: 0;
+}
+.view-animate.ng-enter.ng-enter-active {
+    opacity: 1;
+}
+.view-animate.ng-leave.ng-leave-active {
+    opacity: 0;
+}
+.dimage-foot {
+    font-size: 95%;
+    color: black;
+    line-height: 15px;
+    padding-top: 5px;
+    overflow: hidden;
+    text-align: left;
+    border-top: 4px solid rgba(0, 0, 0, 0.68);
+    margin-bottom: 5px;
+    opacity: 0;
+}
+.animated {
+    -webkit-transition: all ease-out 0.4s;
+    transition: all ease-out 0.4s;
+}
+.thumbnail {
+    margin-bottom: 0px;
+    border: 1px solid rgba(0, 0, 0, 0.0);
+    background-color: #f0f0f0;
+}
+.thumbnail:hover {
+    background-color: #428bca;
+    font-weight: bold;
+}
+.click-panel {
+    cursor: pointer;
+}
+.click-panel>h2 {
+    -webkit-transition: all linear 3s;
+    transition: all linear 3s;
+}
+.click-panel>h2:hover {
+    font-weight: bold;
+}
+/*
+kbd {
+    padding: 2px 4px;
+    font-size: 90%;
+    color: #fff;
+    background-color: #333;
+    border-radius: 3px;
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .25);
+}*/
+
+.jumbotron {
+    background-image: -webkit-linear-gradient(top, #4C9CE2 60%, #D8D4D4 100%);
+    background-image: linear-gradient(to bottom, #4C9CE2 60%, #D8D4D4 100%);
+    color: snow;
+}
+.jheader {
+    background-image: -webkit-linear-gradient(top, #4C9CE2 0%, #438BCA 100%);
+    background-image: linear-gradient(to bottom, #4C9CE2 0%, #438BCA 100%);
+    color: snow;
+}
