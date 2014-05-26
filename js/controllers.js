@@ -190,6 +190,7 @@ angular.module('ldp4j.controllers', [])
     .controller('StartController', ['$scope',
         function ($scope) {
             $scope.ready = true;
+            prettyPrint();
 
   }])
     .controller('JavadocController', ['$scope',

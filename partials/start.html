@@ -5,6 +5,7 @@
 </div>
 <div ng-show="ready" style="box-shadow: 0px 6px 50px rgba(0, 0, 0, 0.28); padding-top:20px; padding-bottom: 40px">
     <div class="container">
+
         <h2>What's LDP4j</h2>
 
         <p>LDP4j is a <strong>Java-based framework for the development  of read-write Linked Data applications</strong> based on the W3C Linked Data Platform 1.0 (LDP) specification.</p>
@@ -101,12 +102,12 @@
 
         <p>The first step is to grab the sources from the project's Git repository:</p>
 
-        <pre><code>    git clone git://github.com/ldp4j/ldp4j.git
+        <pre><code class="prettyprint">    git clone git://github.com/ldp4j/ldp4j.git
 </code></pre>
 
         <p>Once the repository is locally available you can build it as follows:</p>
 
-        <pre><code>    mvn install
+        <pre><code class="prettyprint">    mvn install
 </code></pre>
 
         <h3>Creating a server-side LDP application</h3>
@@ -115,7 +116,7 @@
 
         <p>This can be done in Maven with project with the following dependency:</p>
 
-        <pre><code>    &lt;dependency&gt;
+        <pre><code class="prettyprint">    &lt;dependency&gt;
         &lt;groupId&gt;org.ldp4j.framework&lt;/groupId&gt;
         &lt;artifactId&gt;ldp4j-server-depchain&lt;/artifactId&gt;
         &lt;version&gt;1.0.0-SNAPSHOT&lt;/version&gt;
@@ -125,7 +126,7 @@
 
         <p>A container could be implemented as follows:</p>
 
-        <pre><code>    package org.examples;
+        <pre><code class="prettyprint">    package org.examples;
 
     import java.util.Collection;
 
@@ -156,12 +157,12 @@
 
         <p>In order to make the container implementation available to the LDP4j Server, a file named <strong>org.ldp4j.server.core.ILinkedDataPlatformContainer</strong> has to be added to the <strong>META-INF/services</strong> directory of the WAR including the full qualified names of the classes that implement this interface. In our example, the file would only include the following line:</p>
 
-        <pre><code>    org.examples.ExampleContainer
+        <pre><code class="prettyprint">    org.examples.ExampleContainer
 </code></pre>
 
         <p>Similarly, a deletable resource handler associated to the previous container could be implemented as follows:</p>
 
-        <pre><code>    package org.examples;
+        <pre><code class="prettyprint">    package org.examples;
 
     import java.util.Collection;
 
@@ -207,14 +208,14 @@
 
         <p>Again, in order to make the container implementation available to the LDP4j Server, a file named <strong>org.ldp4j.server.core.ILinkedDataPlatformResourceHandler</strong> has to be added to the <strong>META-INF/services</strong> directory of the WAR including the full qualified names of the classes that implement this interface. In our example, the file would only include the following line:</p>
 
-        <pre><code>    org.examples.ExampleResource
+        <pre><code class="prettyprint">    org.examples.ExampleResource
 </code></pre>
 
         <h3>Consuming LDP contents</h3>
 
         <p>In order to consumer LDP contents you'll need to create a Java application that uses the LDP4j Client. In Maven this can be done with project with the following dependency:</p>
 
-        <pre><code>    &lt;dependency&gt;
+        <pre><code class="prettyprint">    &lt;dependency&gt;
         &lt;groupId&gt;org.ldp4j.framework&lt;/groupId&gt;
         &lt;artifactId&gt;ldp4j-client-depchain&lt;/artifactId&gt;
         &lt;version&gt;1.0.0-SNAPSHOT&lt;/version&gt;
@@ -224,7 +225,7 @@
 
         <p>A proxy to a container located at <em>http://www.example.org/myContainer/</em> can be created as follows:</p>
 
-        <pre><code>    package org.examples;
+        <pre><code class="prettyprint">    package org.examples;
 
     import java.net.URL;
 
@@ -248,7 +249,7 @@
 
         <p>Similarly, a proxy to a resource located at <em>http://www.example.org/myContainer/00001</em> can be created as follows:</p>
 
-        <pre><code>    package org.examples;
+        <pre><code class="prettyprint">    package org.examples;
 
     import java.net.URL;
 
