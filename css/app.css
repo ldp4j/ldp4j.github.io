@@ -94,3 +94,11 @@ kbd {
     background-image: linear-gradient(to bottom, #4C9CE2 0%, #438BCA 100%);
     color: snow;
 }
+.jicon {
+    width: 45px;
+}
+@media (max-width: 500px) {
+    .jicon {
+        display: none;
+    }
+}
