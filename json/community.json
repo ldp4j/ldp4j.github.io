@@ -34,5 +34,14 @@
             "We've set up different mailing lists in Google Groups to foster discussion in the community: LDP4j Users, a mailing list to hosts discussions for developers using LDP4j in their projects; LDP4j Development, a mailing list reserved for discussions about contributing to LDP4j; and LDP4j Commits, a mailing list for tracking the updates to the source repository."]
             }
         ]
+    },
+    "co": {
+        "sections": [
+            {
+                "title": "Contact",
+                "paragraphs": [
+            "If you want to talk to us directly just email us at our official contact address:"]
+            }
+        ]
     }
 }
