@@ -68,6 +68,7 @@ angular.module('ldp4j.controllers', [])
             $scope.sr = new Section();
             $scope.tw = new Section();
             $scope.ml = new Section();
+            $scope.co = new Section();
 
             $scope.goto = function (addr) {
                 gotoFn($location, addr);
@@ -164,10 +165,16 @@ angular.module('ldp4j.controllers', [])
                         $scope.ml.content = cfg.ml.sections;
                     }
 
+                    // Mailing lists content
+                    if (cfg.co !== undefined && cfg.co.sections !== undefined) {
+                        $scope.co.content = cfg.co.sections;
+                    }
+
                     $scope.intro = cfg.intro;
                 }
 
                 $scope.ready = true;
+                prettyPrint();
 
             }, function (response) {});
         }])
