@@ -29,7 +29,7 @@
         </div>
     </div>
 </div>
-<div ng-show="ready" style="box-shadow: 0px 6px 50px rgba(0, 0, 0, 0.28); padding-top:20px; padding-bottom: 40px">
+<div style="box-shadow: 0px 6px 50px rgba(0, 0, 0, 0.28); padding-top:20px; padding-bottom: 40px; min-height: 700px">
     <div class="container" style="padding-top:20px">
         <p>{{intro}}</p>
         <div class="row">
@@ -46,7 +46,12 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <panel id="panel-ml" sections="ml.content" inject="lists" padding="15em" fixed></panel>
+                <panel id="panel-ml" sections="ml.content" inject="lists" padding="14em" fixed></panel>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <panel id="panel-co" sections="co.content" inject="contact" padding="0em" fixed></panel>
             </div>
         </div>
     </div>
@@ -96,6 +101,11 @@
                 </tr>
             </table>
         </div>
+    </div>
+</div>
+<div style="display:none" id="contact">
+    <div align="center" class="col-md-12" style="margin-top:0.5em">
+        <code class="prettyprint"><a style="font-size:20px" href="mailto:contact@ldp4j.org">contact@ldp4j.org</a></code>
     </div>
 </div>
 
