@@ -170,7 +170,7 @@ angular.module('ldp4j.controllers', [])
                 $scope.ready = true;
 
             }, function (response) {});
-  }])
+        }])
     .controller('AboutController', ['$scope', '$json',
         function ($scope, $json) {
             $scope.ready = false;
@@ -186,13 +186,13 @@ angular.module('ldp4j.controllers', [])
 
             }, function (response) {});
 
-  }])
+        }])
     .controller('StartController', ['$scope',
         function ($scope) {
             $scope.ready = true;
             prettyPrint();
 
-  }])
+        }])
     .controller('JavadocController', ['$scope',
         function ($scope) {
             var javadoc = $('#javadoc');
@@ -213,7 +213,7 @@ angular.module('ldp4j.controllers', [])
 
             $scope.resizeJavadoc();
 
-  }])
+        }])
     .controller('LDPController', ['$scope', '$json', '$sce',
         function ($scope, $json, $sce) {
 
@@ -265,7 +265,7 @@ angular.module('ldp4j.controllers', [])
                 $(window).off('resize');
             });
 
-                }])
+        }])
     .controller('NavbarController', ['$scope', '$location', '$json',
     function ($scope, $location, $json) {
 
@@ -290,4 +290,4 @@ angular.module('ldp4j.controllers', [])
             };
 
 
-  }]);
+        }]);

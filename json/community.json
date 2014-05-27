@@ -31,7 +31,7 @@
             {
                 "title": "Mailing Lists",
                 "paragraphs": [
-            "We've set up different mailing lists to foster discussion in the community, served by Google Groups. Users, a mailing list to hosts discussions for developers using LDP4j in their projects. Development, a mailing list reserved for discussions about contributing to LDP4j. Commits, a mailing list for tracking the updates to the source repository."]
+            "We've set up different mailing lists in Google Groups to foster discussion in the community: LDP4j Users, a mailing list to hosts discussions for developers using LDP4j in their projects; LDP4j Development, a mailing list reserved for discussions about contributing to LDP4j; and LDP4j Commits, a mailing list for tracking the updates to the source repository."]
             }
         ]
     }

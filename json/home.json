@@ -7,7 +7,7 @@
     "ldp": {
         "sections": [{
                 "title": "A framework for LDP",
-                "paragraphs": ["LDP4j provides the components required by clients and servers for handling their communication, hidding the complexity of the protocol details from application developers and letting them focus on implementing their application-specific business logic. In addition, the framework also provides a set of middleware services for the development of read-write Linked Data applications with requirements beyond the LDP specification scope."]
+                "paragraphs": ["LDP4j provides the components required by clients and servers for handling their LDP-based communication, hidding the complexity of the protocol details from application developers and letting them focus on implementing their application-specific business logic. In addition, the framework also provides a set of middleware services for the development of read-write Linked Data applications with requirements beyond the scope of the LDP specification."]
             }
         ],
         "button": "Learn LDP"
@@ -15,14 +15,14 @@
     "involved": {
         "sections": [{
             "title": "Get involved",
-            "paragraphs": ["By getting involved with the community you will be contributing to make LDP4j the best reference implementation of LDP. You can participate in the way you like, from writing code and reporting issues to discuss with developers and talk about LDP4j to everyone."]
+            "paragraphs": ["By getting involved in the community you will be contributing to make LDP4j the best implementation for LDP. You can participate any way you like, from writing code and reporting issues to discussing with developers and talking about LDP4j to everyone."]
         }],
         "button": "Contribute"
     },
     "who": {
         "sections": [{
             "title": "Who we are",
-            "paragraphs": ["We are a small group of developers based at the Center for Open Middleware who are part of the W3C Linked Data Platform working group."]
+            "paragraphs": ["We are a small group of developers based at the Center for Open Middleware and involved in the W3C Linked Data Platform working group."]
         }],
         "button": "Know the team"
     }
