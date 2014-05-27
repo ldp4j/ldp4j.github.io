@@ -24,7 +24,7 @@
                         <div>{{person.desc}}</div>
                         <div style="padding-top:0.4em">
                             <div ng-if="person.twitter != undefined">
-                                <contact user={{person.twitter}} logo="img/twitter-small.png" link="mailto:{{person.twitter}}"></contact>
+                                <contact user={{person.twitter}} logo="img/twitter-small.png" link="https://twitter.com/{{person.twitter}}"></contact>
                             </div>
                             <div ng-if="person.gh != undefined">
                                 <contact user={{person.gh}} logo="img/github-small.png" link="https://github.com/{{person.gh}}"></contact>
@@ -68,7 +68,7 @@
                                 <contact user={{person.email}} logo="img/email.png" link="mailto:{{person.email}}"></contact>
                             </div>
                             <div ng-if="person.web != undefined">
-                                <contact user={{person.web}} logo="img/web.png" link="mailto:{{person.web}}"></contact>
+                                <contact user={{person.web}} logo="img/web.png" link="{{person.web}}"></contact>
                             </div>
                         </div>
                     </div>
