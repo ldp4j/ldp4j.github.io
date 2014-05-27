@@ -7,14 +7,14 @@
             {
                 "name": "MIGUEL ESTEBAN GUTIÉRREZ",
                 "img": "img/miguel.png",
-                "desc": "Miguel Esteban Gutiérrez is a software engineer working for the Center for Open Middleware and the Ontology Engineering Group. He is leading the development of LDP4j and is member of the W3C Linked Data Platform Working Group.",
+                "desc": "Software engineer working for the Center for Open Middleware and the Ontology Engineering Group. He is leading the development of LDP4j and is member of the W3C Linked Data Platform Working Group.",
                 "gh": "mestebangutierrez",
                 "email": "miguel.esteban@centeropenmiddleware.com"
             },
             {
                 "name": "NANDANA MIHINDUKULASOORIYA",
                 "img": "img/nandana.png",
-                "desc": "Software engineer working for Center for Open Middleware and Ontology Engineering Group. He is also a member of the W3C Linked Data Platform working group and serve as the editor of the LDP 1.0 Primer.",
+                "desc": "Software engineer working for Center for Open Middleware and Ontology Engineering Group. He is also a member of the W3C Linked Data Platform working group and serves as the editor of the LDP 1.0 Primer.",
                 "gh": "nandana",
                 "twitter": "nandanamihindu",
                 "email": "nandana@centeropenmiddleware.com"
@@ -22,10 +22,11 @@
             {
                 "name": "RAÚL GARCIA CASTRO",
                 "img": "img/raul.png",
-                "desc": "Assistant Professor at Universidad Politécnica de Madrid and works in the Ontology Engineering Group in several European and Spanish research projects. His research focuses on the benchmarking of semantic technologies, ontological engineering, and application integration. He has participated in the definition of the W3C LDP Test Cases.",
+                "desc": "Assistant Professor at Universidad Politécnica de Madrid and works in the Ontology Engineering Group in several European and Spanish research projects. He is also a member of the W3C Linked Data Platform working group and has participated in the definition of the W3C LDP Test Cases.",
                 "gh": "rgcmme",
                 "email": "rgarcia@fi.upm.es",
-                "twitter": "rgcmme"
+                "twitter": "rgcmme",
+                "web": "http://www.garcia-castro.com/"
             }
         ]
     },

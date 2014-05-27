@@ -32,6 +32,9 @@
                             <div ng-if="person.email != undefined">
                                 <contact user={{person.email}} logo="img/email.png" link="mailto:{{person.email}}"></contact>
                             </div>
+                            <div ng-if="person.web != undefined">
+                                <contact user={{person.web}} logo="img/web.png" link="mailto:{{person.web}}"></contact>
+                            </div>
                         </div>
                     </div>
                 </div>
