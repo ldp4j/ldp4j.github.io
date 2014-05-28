@@ -38,7 +38,7 @@ directive('column',
             restrict: 'E',
             compile: function (tElem, attrs) {
 
-                tElem.append('<div ng-repeat="s in ' + attrs.sections + '"><h3 ng-if="s.title != undefined">{{s.title}}</h3><p ng-if="s.paragraphs != undefined" ng-repeat="par in s.paragraphs">{{par}}</p></div>');
+                tElem.append('<div ng-repeat="s in ' + attrs.sections + '"><h3 ng-if="s.title != undefined">{{s.title}}</h3><div ng-if="s.paragraphs != undefined" ng-repeat="par in s.paragraphs"><div ng-bind-html="par"></div></div></div>');
 
                 tElem.css('display', 'block');
 
