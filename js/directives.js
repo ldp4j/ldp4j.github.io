@@ -75,6 +75,25 @@ directive('contact',
             }
         };
     }).
+directive('markdown', ['$text',
+    function ($text) {
+        return {
+            restrict: 'E',
+            compile: function (tElem, attrs) {
+
+                tElem.css('display', 'block');
+                tElem.css('overflow', 'hidden');
+
+                return function (scope, elem, attrs) {
+                    $text.load(attrs.text).then(function (response) {
+                        elem.append($text.html(response.data));
+                        prettyPrint();
+                    }, function (error) {});
+
+                };
+            }
+        };
+    }]).
 directive('dimage',
     function () {
 
