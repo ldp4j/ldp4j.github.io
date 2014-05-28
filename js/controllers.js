@@ -21,16 +21,7 @@ var markdownSections = function (sections) {
     return sections;
 };
 
-var gotoFn = function ($location, addr) {
-    if (addr.indexOf('http') !== 0) {
-        $location.path(addr);
-    } else {
-        $(location).attr('about', 'blank_');
-        $(location).attr('href', addr);
-    }
-};
-
-angular.module('ldp4j.controllers', [])
+angular.module('ldp4j.controllers', []).value('version', '0.2')
     .controller('FooterController', ['$scope', '$json', '$location',
         function ($scope, $json, $location) {
 
@@ -44,16 +35,12 @@ angular.module('ldp4j.controllers', [])
 
                 $scope.ready = true;
 
-            }, function (response) {});
+            }, function (error) {});
         }])
-    .controller('HomeController', ['$scope', '$json', '$location',
-        function ($scope, $json, $location) {
+    .controller('HomeController', ['$scope', '$json', '$location', '$window',
+        function ($scope, $json, $location, $window) {
 
             $scope.ready = false;
-
-            $scope.goto = function (addr) {
-                gotoFn($location, addr);
-            };
 
             $json.load('home').then(function (response) {
                 if (typeof response.data === 'object') {
@@ -65,7 +52,7 @@ angular.module('ldp4j.controllers', [])
 
                 $scope.ready = true;
 
-            }, function (response) {});
+            }, function (error) {});
         }])
     .controller('CommunityController', ['$scope', '$json', '$location', '$timeout',
         function ($scope, $json, $location, $timeout) {
@@ -88,10 +75,6 @@ angular.module('ldp4j.controllers', [])
             $scope.tw = new Section();
             $scope.ml = new Section();
             $scope.co = new Section();
-
-            $scope.goto = function (addr) {
-                gotoFn($location, addr);
-            };
 
             $scope.showTwitter = function () {
                 if ($scope.twButtonFocused) {
@@ -193,7 +176,7 @@ angular.module('ldp4j.controllers', [])
                 }
 
                 $scope.ready = true;
-            }, function (response) {});
+            }, function (error) {});
         }])
     .controller('AboutController', ['$scope', '$json', '$filter',
         function ($scope, $json, $filter) {
@@ -208,7 +191,7 @@ angular.module('ldp4j.controllers', [])
 
                 $scope.ready = true;
 
-            }, function (response) {});
+            }, function (error) {});
 
         }])
     .controller('StartController', ['$scope',
@@ -235,8 +218,8 @@ angular.module('ldp4j.controllers', [])
             $scope.resizeJavadoc();
 
         }])
-    .controller('LDPController', ['$scope', '$json', '$sce',
-        function ($scope, $json, $sce) {
+    .controller('LDPController', ['$scope', '$json',
+        function ($scope, $json) {
 
             $scope.sections = [];
             $scope.iframe = {
@@ -276,7 +259,7 @@ angular.module('ldp4j.controllers', [])
 
                 $scope.contentReady = true;
 
-            }, function (response) {});
+            }, function (error) {});
 
             $(window).resize(function () {
                 $scope.updateSizes();
@@ -302,7 +285,7 @@ angular.module('ldp4j.controllers', [])
 
                 $scope.ready = true;
 
-            }, function (response) {});
+            }, function (error) {});
 
             $scope.isActive = function (viewLocation) {
                 var path = $location.path();
