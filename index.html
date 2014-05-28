@@ -12,16 +12,16 @@
     <title>LDP4j</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="html5-boilerplate/css/normalize.css">
-    <link rel="stylesheet" href="html5-boilerplate/css/main.css">
-    <link rel="stylesheet" href="bootstrap/dist/css/bootstrap.css">
-    <link rel="stylesheet" href="bootstrap/dist/css/bootstrap-theme.css">
-    <link rel="stylesheet" href="angular/angular-csp.css">
+    <link rel="stylesheet" href="deps/html5-boilerplate/css/normalize.css">
+    <link rel="stylesheet" href="deps/html5-boilerplate/css/main.css">
+    <link rel="stylesheet" href="deps/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="deps/bootstrap/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="deps/angular/angular-csp.css">
     <link rel="stylesheet" href="css/docs.css">
-    <link rel="stylesheet" href="prettify/prettify.css">
-    <script src="html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
-    <script src="jquery/dist/jquery.js"></script>
-    <script src="bootstrap/dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="deps/prettify/prettify.css">
+    <script src="deps/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
+    <script src="deps/jquery/jquery.js"></script>
+    <script src="deps/bootstrap/js/bootstrap.js"></script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/prettify.js" defer="defer"></script>
     <link rel="stylesheet" href="css/app.css" />
 </head>
@@ -63,7 +63,7 @@
     </div>
     <div class="view-animate" ng-view></div>
 
-    <div id="footer" ng-controller="FooterController" class="container">
+    <div ng-if="ready" id="footer" ng-controller="FooterController" class="container">
         <hr style="opacity:0">
         <div class="row">
             <div class="col-md-7 col-sm-12 col-xs-12" style="margin-bottom:15px; color:dimgray">
@@ -93,8 +93,8 @@
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-route.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-animate.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-sanitize.js"></script>
-    <script src="textile/textile.js"></script>
-    <script src="markdown/markdown.js"></script>
+    <script src="deps/textile/textile.js"></script>
+    <script src="deps/markdown/markdown.js"></script>
 
     <!--<script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>

@@ -1,7 +1,5 @@
 'use strict';
 
-
-// Declare app level module which depends on filters, and services
 angular.module('ldp4j', [
     'ngRoute',
     'ngLocale',
@@ -14,31 +12,51 @@ angular.module('ldp4j', [
 ]).
 config(['$routeProvider',
     function ($routeProvider) {
-        $routeProvider.when('/', {
-            templateUrl: 'partials/home.html',
-            controller: 'HomeController'
-        });
-        $routeProvider.when('/community', {
-            templateUrl: 'partials/community.html',
-            controller: 'CommunityController'
-        });
-        $routeProvider.when('/about', {
-            templateUrl: 'partials/about.html',
-            controller: 'AboutController'
-        });
-        $routeProvider.when('/learn/ldp', {
-            templateUrl: 'partials/ldp.html',
-            controller: 'LDPController'
-        });
-        $routeProvider.when('/learn/start', {
-            templateUrl: 'partials/start.html',
-            controller: 'StartController'
-        });
-        $routeProvider.when('/learn/javadoc', {
-            templateUrl: 'partials/javadoc.html',
-            controller: 'JavadocController'
-        });
+
+        function Resolve($json, name) {
+            this.setup = function () {
+                return $json.load(name);
+            };
+        }
+
+        var setupRoute = function (path, html, ctrl, setup) {
+            $routeProvider.when(path, {
+                templateUrl: 'partials/' + html + '.html',
+                controller: ctrl,
+                resolve: {
+                    setup: function ($json) {
+                        if (setup !== undefined) {
+                            var resolve = new Resolve($json, setup);
+                            return resolve.setup();
+                        }
+
+                        return undefined;
+                    }
+                }
+            });
+        };
+
+        setupRoute('/', 'home', 'HomeController', 'home');
+        setupRoute('/community', 'community', 'CommunityController', 'community');
+        setupRoute('/learn/ldp', 'ldp', 'LDPController', 'ldp');
+        setupRoute('/about', 'about', 'AboutController', 'about');
+        setupRoute('/learn/start', 'start', 'StartController');
+        setupRoute('/learn/javadoc', 'javadoc', 'JavadocController');
+
         $routeProvider.otherwise({
             redirectTo: '/'
         });
-}]);
+    }]).
+run(['$rootScope',
+    function ($root) {
+        $root.$on('$routeChangeStart', function (e, curr, prev) {
+            if (curr.$$route && curr.$$route.resolve) {
+                // Don't show the view until promises are not resolved
+                $root.ready = false;
+            }
+        });
+        $root.$on('$routeChangeSuccess', function (e, curr, prev) {
+            // Ready to show
+            $root.ready = true;
+        });
+    }]);
