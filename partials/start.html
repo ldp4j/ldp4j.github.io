@@ -8,15 +8,15 @@
 
         <h2>What's LDP4j</h2>
 
-        <p>LDP4j is a <strong>Java-based framework for the development  of read-write Linked Data applications</strong> based on the W3C Linked Data Platform 1.0 (LDP) specification.</p>
+        <p>LDP4j is a <strong>Java-based framework for the development of read-write Linked Data applications</strong> based on the W3C Linked Data Platform 1.0 (LDP) specification.</p>
 
-        <p>This framework provides the components required by clients and servers for handling their communication, hidding the complexity of the protocol details from application developers and letting them focus on implementing their application-specific business logic.</p>
+        <p>This framework provides the components required by clients and servers for handling their communication, hiding the complexity of the protocol details from application developers and letting them focus on implementing their application-specific business logic.</p>
 
         <p>In addition, the framework also provides a set of middleware services for the development of read-write Linked Data applications with requirements beyond the LDP specification scope.</p>
 
         <h2>High-level Design of LDP4j</h2>
 
-        <p>In order to facilitate the development of LDP-based applications the LDP4j provides different components that developers may use for the development of such applications, in particular: an extensible LDP Server and an extensible LDP Client. The following sections will present both components.</p>
+        <p>In order to facilitate the development of LDP-based applications, LDP4j provides different components that developers may use for the development of such applications, in particular: an extensible LDP Server and an extensible LDP Client. The following sections will present both components.</p>
 
         <h3>LDP4j Server Component</h3>
 
@@ -30,9 +30,9 @@
 
         <p>This latter part of the API provides and extensibility layer that enables the developer specify the behaviour of the LDP4j Server when dealing with LDP containers and resources. For the time being two extensibility points are provided: <strong>org.ldp4j.server.core.ILinkedDataPlatformContainer</strong> and <strong>org.ldp4j.server.core.ILinkedDataPlatformResourceHandler</strong>.</p>
 
-        <p>In order to develop <em>direct</em> LDP containers, developers must implement the <em>org.ldp4j.server.core.ILinkedDataPlatformContainer</em> interface. This interfaces provides the means for handling the creation of LDP resources given an RDF serialization, as well as for retrieving an RDF summary of contents of one or more of the resources managed by the container. Each container must be identified by an application unique identifier. In addition, every created resource must be identified by a container unique identifier.</p>
+        <p>In order to develop <em>direct</em> LDP containers, developers must implement the <em>org.ldp4j.server.core.ILinkedDataPlatformContainer</em> interface. This interface provides the means for handling the creation of LDP resources given an RDF serialization, as well as for retrieving an RDF summary of contents of one or more of the resources managed by the container. Each container must be identified by an application unique identifier. In addition, every created resource must be identified by a container unique identifier.</p>
 
-        <p>On the other hand, the <em>org.ldp4j.server.core.ILinkedDataPlatformResourceHandler</em> interface has to be implemented for developing LDP resources. This interfaces provides the means for retrieving the contents of existing resources and well as for updating their contents given an RDF serialization. Resource handlers must be identified by an application unique identifier, which should match that of the container used for the creation of the resources handled by the handler.</p>
+        <p>On the other hand, the <em>org.ldp4j.server.core.ILinkedDataPlatformResourceHandler</em> interface has to be implemented for developing LDP resources. This interface provides the means for retrieving the contents of existing resources and well as for updating their contents given an RDF serialization. Resource handlers must be identified by an application unique identifier, which should match that of the container used for the creation of the resources handled by the handler.</p>
 
         <p>If the application supports resource deletion, developers will have to extend the classes that implement the <em>org.ldp4j.server.core.ILinkedDataPlatformResourceHandler</em> in one of two ways: implement also the <strong>org.ldp4j.server.core.Deletable</strong> interface, or provide a method with the same signature as the <em>delete</em> method defined in the latter interface, annotated with <strong>org.ldp4j.server.core.Delete</strong>.</p>
 
@@ -48,7 +48,7 @@
             <li><strong>Direct Container</strong>
                 <ul>
                     <li><em>Resource creation</em>, supporting both RDF/XML and Turtle serializations.</li>
-                    <li><em>Container retrieval</em>, supporting both the RDF/XML and Turtle serializations.</li>
+                    <li><em>Container retrieval</em>, supporting both RDF/XML and Turtle serializations.</li>
                 </ul>
             </li>
             <li><strong>RDF Source-based LDP Resources</strong>
@@ -64,14 +64,14 @@
         <p>However the following caveats apply:</p>
 
         <ol>
-            <li>The container retrieval operations does not support the current paging functionality. Also, the method for selecting the contents of the container representation is still based on a <a href="http://www.w3.org/TR/2013/WD-ldp-20130307/">previous version of the specification</a>.</li>
+            <li>The container retrieval operations do not support the current paging functionality. Also, the method for selecting the contents of the container representation is still based on a <a href="http://www.w3.org/TR/2013/WD-ldp-20130307/">previous version of the specification</a>.</li>
         </ol>
 
         <h3>LDP4j Client Component</h3>
 
         <p>While the LDP4j Server Component is meant to help developers in publishing contents via the LDP protocol, the purpose of the LDP4j Client Component is to let developers build applications capable of consuming those contents exploiting the LDP protocol. Again, the LDP4j Client Component hides the specificities of the LDP protocol to the developer so that he only has to decide how to use those contents.</p>
 
-        <p>The LDP4j Client Component (or <em>LDP Client</em> for short) is also divided in two modules: the <strong>LDP Client API</strong> and the <strong>LDP Client Implementation</strong>, which are presented in the following paragraphs.</p>
+        <p>The LDP4j Client Component (or <em>LDP Client</em> for short) is also divided into two modules: the <strong>LDP Client API</strong> and the <strong>LDP Client Implementation</strong>, which are presented in the following paragraphs.</p>
 
         <h4>LDP Client API</h4>
 
@@ -114,7 +114,7 @@
 
         <p>Using Apache TomEE as target container, in order to create a server-side application you'll just need to create a java application that includes the LDP4j Server Component and package it as a WAR.</p>
 
-        <p>This can be done in Maven with project with the following dependency:</p>
+        <p>This can be done in the Maven project with the following dependency:</p>
 
         <pre><code class="prettyprint">    &lt;dependency&gt;
         &lt;groupId&gt;org.ldp4j.framework&lt;/groupId&gt;
@@ -213,7 +213,7 @@
 
         <h3>Consuming LDP contents</h3>
 
-        <p>In order to consumer LDP contents you'll need to create a Java application that uses the LDP4j Client. In Maven this can be done with project with the following dependency:</p>
+        <p>In order to consume LDP contents you'll need to create a Java application that uses the LDP4j Client. In Maven this can be done in the project with the following dependency:</p>
 
         <pre><code class="prettyprint">    &lt;dependency&gt;
         &lt;groupId&gt;org.ldp4j.framework&lt;/groupId&gt;
