@@ -1,7 +1,5 @@
 'use strict';
 
-/* Services */
-
 var services = angular.module('ldp4j.services', []).value('version', '0.2');
 
 services.service('$json', function ($http) {

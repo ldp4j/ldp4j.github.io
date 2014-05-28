@@ -22,59 +22,36 @@ var markdownSections = function (sections) {
 };
 
 angular.module('ldp4j.controllers', []).value('version', '0.2')
-    .controller('FooterController', ['$scope', '$json', '$location',
-        function ($scope, $json, $location) {
-
-            $scope.ready = false;
+    .controller('FooterController', ['$scope', '$json',
+        function ($scope, $json) {
 
             $json.load('footer').then(function (response) {
                 if (typeof response.data === 'object') {
                     $scope.rights = response.data.rights;
                     $scope.com = response.data.com;
                 }
-
-                $scope.ready = true;
-
             }, function (error) {});
+
+            angular.element(document).ready(function () {
+                $scope.$parent.docReady = true;
+            });
         }])
-    .controller('HomeController', ['$scope', '$json', '$location', '$window',
-        function ($scope, $json, $location, $window) {
+    .controller('HomeController', ['$scope', 'setup',
+        function ($scope, setup) {
 
-            $scope.ready = false;
+            $scope.texts = setup.data;
 
-            $json.load('home').then(function (response) {
-                if (typeof response.data === 'object') {
-                    $scope.ldp = response.data.ldp;
-                    $scope.involved = response.data.involved;
-                    $scope.who = response.data.who;
-                    $scope.jumbo = response.data.jumbo;
-                }
+            $scope.$parent.ready = true;
 
-                $scope.ready = true;
-
-            }, function (error) {});
         }])
-    .controller('CommunityController', ['$scope', '$json', '$location', '$timeout',
-        function ($scope, $json, $location, $timeout) {
+    .controller('CommunityController', ['$scope', '$timeout', 'setup',
+        function ($scope, $timeout, setup) {
 
-            $scope.ready = false;
             $scope.twShow = false;
             $scope.twButtonFocused = false;
             $scope.twFocused = false;
             $scope.inTimer = undefined;
             $scope.outTimer = undefined;
-
-            function Section() {
-                this.content = [];
-                this.style = {};
-                this.focused = false;
-            }
-
-            $scope.it = new Section();
-            $scope.sr = new Section();
-            $scope.tw = new Section();
-            $scope.ml = new Section();
-            $scope.co = new Section();
 
             $scope.showTwitter = function () {
                 if ($scope.twButtonFocused) {
@@ -143,61 +120,19 @@ angular.module('ldp4j.controllers', []).value('version', '0.2')
                 $(window).off('resize');
             });
 
-            $json.load('community').then(function (response) {
-
-                var cfg = response.data;
-                if (typeof cfg === 'object') {
-                    // Issue tracker content
-                    if (cfg.it !== undefined && cfg.it.sections !== undefined) {
-                        $scope.it.content = markdownSections(cfg.it.sections);
-                    }
-
-                    // Source repository content
-                    if (cfg.sr !== undefined && cfg.sr.sections !== undefined) {
-                        $scope.sr.content = markdownSections(cfg.sr.sections);
-                    }
-
-                    // Twitter content
-                    if (cfg.tw !== undefined && cfg.tw.sections !== undefined) {
-                        $scope.tw.content = markdownSections(cfg.tw.sections);
-                    }
-
-                    // Mailing lists content
-                    if (cfg.ml !== undefined && cfg.ml.sections !== undefined) {
-                        $scope.ml.content = markdownSections(cfg.ml.sections);
-                    }
-
-                    // Mailing lists content
-                    if (cfg.co !== undefined && cfg.co.sections !== undefined) {
-                        $scope.co.content = markdownSections(cfg.co.sections);
-                    }
-
-                    $scope.intro = cfg.intro;
-                }
-
-                $scope.ready = true;
-            }, function (error) {});
+            $scope.texts = setup.data;
+            /*$scope.texts.it.sections = markdownSections(setup.data.it.sections);
+            $scope.texts.sr.sections = markdownSections(setup.data.sr.sections);
+            $scope.texts.tw.sections = markdownSections(setup.data.tw.sections);
+            $scope.texts.ml.sections = markdownSections(setup.data.ml.sections);
+            $scope.texts.co.sections = markdownSections(setup.data.co.sections);*/
         }])
-    .controller('AboutController', ['$scope', '$json', '$filter',
-        function ($scope, $json, $filter) {
-            $scope.ready = false;
-
-            $json.load('about').then(function (response) {
-
-                var cfg = response.data;
-                if (typeof cfg === 'object') {
-                    $scope.texts = response.data;
-                }
-
-                $scope.ready = true;
-
-            }, function (error) {});
-
+    .controller('AboutController', ['$scope', 'setup',
+        function ($scope, setup) {
+            $scope.texts = setup.data;
         }])
     .controller('StartController', ['$scope',
-        function ($scope) {
-            $scope.ready = true;
-        }])
+        function ($scope) {}])
     .controller('JavadocController', ['$scope',
         function ($scope) {
             var javadoc = $('#javadoc');
@@ -218,8 +153,8 @@ angular.module('ldp4j.controllers', []).value('version', '0.2')
             $scope.resizeJavadoc();
 
         }])
-    .controller('LDPController', ['$scope', '$json',
-        function ($scope, $json) {
+    .controller('LDPController', ['$scope', 'setup',
+        function ($scope, setup) {
 
             $scope.sections = [];
             $scope.iframe = {
@@ -227,7 +162,6 @@ angular.module('ldp4j.controllers', []).value('version', '0.2')
                 title: '',
                 url: ''
             };
-            $scope.contentReady = false;
 
             $scope.updateSizes = function () {
                 var descHeight = $('#ldp-description').height();
@@ -242,24 +176,16 @@ angular.module('ldp4j.controllers', []).value('version', '0.2')
                 $scope.updateSizes();
             };
 
-            $json.load('ldp').then(function (response) {
+            var cfg = setup.data;
+            if (cfg.first !== undefined && cfg.first.sections !== undefined) {
+                $scope.first = cfg.first.sections;
+            }
+            if (cfg.last !== undefined && cfg.last.sections !== undefined) {
+                $scope.last = cfg.last.sections;
+            }
 
-                var cfg = response.data;
-                if (typeof cfg === 'object') {
-                    if (cfg.first !== undefined && cfg.first.sections !== undefined) {
-                        $scope.first = cfg.first.sections;
-                    }
-                    if (cfg.last !== undefined && cfg.last.sections !== undefined) {
-                        $scope.last = cfg.last.sections;
-                    }
-
-                    $scope.header = cfg.header;
-                    $scope.docs = cfg.docs;
-                }
-
-                $scope.contentReady = true;
-
-            }, function (error) {});
+            $scope.header = cfg.header;
+            $scope.docs = cfg.docs;
 
             $(window).resize(function () {
                 $scope.updateSizes();

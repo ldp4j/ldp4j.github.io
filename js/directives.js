@@ -1,8 +1,5 @@
 'use strict';
 
-/* Directives */
-
-
 var directives = angular.module('ldp4j.directives', []).value('version', '0.2');
 
 directives.
@@ -12,21 +9,65 @@ directive('appVersion', ['version',
             elm.text(version);
         };
     }]).
-directive('column',
-    function () {
+directive('postRepeat', ['$text',
+    function ($text) {
+        return {
+            restrict: 'A',
+            compile: function (tElem, attrs) {
+                return function (scope, element, attrs) {
+                    if (scope.$last) {
+                        // iteration is complete, do whatever post-processing
+                        // is necessary
+                        var md = element.find('#md-cand');
+                        var html = md.html();
+                        html = $text.html(html);
+                        md.html(html);
+                        prettyPrint();
+
+                    }
+                };
+            }
+        }
+    }]).directive('md', ['$text',
+    function ($text) {
+        return {
+            restrict: 'A',
+            compile: function (tElem, attrs) {
+
+                tElem.css('display', 'block');
+                tElem.css('overflow', 'hidden');
+
+                var html = tElem.html();
+                html = $text.html(html);
+                tElem.html(html);
+
+                return function (scope, elem, attrs) {
+                    prettyPrint();
+                };
+            }
+        };
+    }]).directive('column', ['$text',
+    function ($text) {
         return {
             restrict: 'E',
             compile: function (tElem, attrs) {
 
-                tElem.append('<div ng-repeat="s in ' + attrs.sections + '"><h3 ng-if="s.title != undefined">{{s.title}}</h3><div ng-if="s.paragraphs != undefined" ng-repeat="par in s.paragraphs"><div ng-bind-html="par"></div></div></div>');
+                tElem.append('<div ng-repeat="s in ' + attrs.sections + '"><h3 ng-if="s.title != undefined">{{s.title}}</h3><div ng-if="s.paragraphs != undefined" ng-repeat="par in s.paragraphs"><div md id="md-cand">{{par}}</div></div></div>');
 
                 tElem.css('display', 'block');
 
-                return function (scope, elem, attrs) {};
+                return function (scope, elem, attrs) {
+                    /*var md = elem.find('#md-cand');
+
+                    var html = md.html();
+                    html = $text.html(html);
+                    elem.html(html);
+                    prettyPrint();
+                    console.log(html);*/
+                };
             }
         };
-    }).
-directive('contact',
+    }]).directive('contact',
     function () {
         return {
             restrict: 'E',
@@ -40,8 +81,7 @@ directive('contact',
                 return function (scope, elem, attrs) {};
             }
         };
-    }).
-directive('markdown', ['$text',
+    }).directive('markdown', ['$text',
     function ($text) {
         return {
             restrict: 'E',
@@ -59,8 +99,7 @@ directive('markdown', ['$text',
                 };
             }
         };
-    }]).
-directive('panel', ['$window', '$location',
+    }]).directive('panel', ['$window', '$location',
     function ($window, $location) {
 
         var updateButton = function (button) {
