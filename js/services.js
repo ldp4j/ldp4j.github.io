@@ -2,15 +2,26 @@
 
 /* Services */
 
-var services = angular.module('ldp4j.services', []).value('version', '0.1');
+var services = angular.module('ldp4j.services', []).value('version', '0.2');
 
 services.service('$json', function ($http) {
 
-    var jsonManager = {
+    var manager = {
         load: function (name) {
             var url = 'json/' + name + '.json';
             return $http.get(url);
         }
     };
-    return jsonManager;
+    return manager;
+});
+
+services.service('$text', function ($http) {
+
+    var manager = {
+        load: function (name) {
+            var url = 'txt/' + name + '.txt';
+            return $http.get(url);
+        }
+    };
+    return manager;
 });
