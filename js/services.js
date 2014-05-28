@@ -19,7 +19,7 @@ services.service('$text', function ($http) {
 
     var manager = {
         load: function (name) {
-            var url = 'txt/' + name + '.txt';
+            var url = 'md/' + name + '.md';
             return $http.get(url);
         },
         html: function (text) {
