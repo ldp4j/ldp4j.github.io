@@ -6,6 +6,7 @@ angular.module('ldp4j', [
     'ngRoute',
     'ngLocale',
     'ngAnimate',
+    'ngSanitize',
     'ldp4j.filters',
     'ldp4j.services',
     'ldp4j.directives',
