@@ -46,7 +46,7 @@ For the time being the implementation supports the following [LDP 1.0 LCWD2](htt
 
 However the following caveats apply:
 
-1. The container retrieval operations do not support the current paging functionality. Also, the method for selecting the contents of the container representation is still based on a [previous version of the specification](http://www.w3.org/TR/2013/WD-ldp-20130307/)
+1. The container retrieval operations do not support the current paging functionality. Also, the method for selecting the contents of the container representation is still based on a [previous version of the specification](http://www.w3.org/TR/2013/WD-ldp-20130307/).
 
 ### LDP4j Client Component
 
