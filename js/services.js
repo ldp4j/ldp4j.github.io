@@ -21,6 +21,13 @@ services.service('$text', function ($http) {
         load: function (name) {
             var url = 'txt/' + name + '.txt';
             return $http.get(url);
+        },
+        html: function (text) {
+            var html = markdown.toHTML(text);
+            var find = '<code>';
+            var re = new RegExp(find, 'g');
+
+            return html.replace(re, '<code class="prettyprint">');
         }
     };
     return manager;
