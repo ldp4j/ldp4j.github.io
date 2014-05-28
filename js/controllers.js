@@ -2,6 +2,25 @@
 
 /* Controllers */
 
+var textileSection = function (section) {
+    if (section.paragraphs !== undefined) {
+        var paragraphs = [];
+        section.paragraphs.forEach(function (par) {
+            paragraphs.push(textile(par));
+        });
+
+        section.paragraphs = paragraphs;
+    }
+};
+
+var textileSections = function (sections) {
+    sections.forEach(function (section) {
+        textileSection(section);
+    });
+
+    return sections;
+};
+
 var gotoFn = function ($location, addr) {
     if (addr.indexOf('http') !== 0) {
         $location.path(addr);
@@ -147,27 +166,27 @@ angular.module('ldp4j.controllers', [])
                 if (typeof cfg === 'object') {
                     // Issue tracker content
                     if (cfg.it !== undefined && cfg.it.sections !== undefined) {
-                        $scope.it.content = cfg.it.sections;
+                        $scope.it.content = textileSections(cfg.it.sections);
                     }
 
                     // Source repository content
                     if (cfg.sr !== undefined && cfg.sr.sections !== undefined) {
-                        $scope.sr.content = cfg.sr.sections;
+                        $scope.sr.content = textileSections(cfg.sr.sections);
                     }
 
                     // Twitter content
                     if (cfg.tw !== undefined && cfg.tw.sections !== undefined) {
-                        $scope.tw.content = cfg.tw.sections;
+                        $scope.tw.content = textileSections(cfg.tw.sections);
                     }
 
                     // Mailing lists content
                     if (cfg.ml !== undefined && cfg.ml.sections !== undefined) {
-                        $scope.ml.content = cfg.ml.sections;
+                        $scope.ml.content = textileSections(cfg.ml.sections);
                     }
 
                     // Mailing lists content
                     if (cfg.co !== undefined && cfg.co.sections !== undefined) {
-                        $scope.co.content = cfg.co.sections;
+                        $scope.co.content = textileSections(cfg.co.sections);
                     }
 
                     $scope.intro = cfg.intro;
@@ -178,8 +197,8 @@ angular.module('ldp4j.controllers', [])
 
             }, function (response) {});
         }])
-    .controller('AboutController', ['$scope', '$json',
-        function ($scope, $json) {
+    .controller('AboutController', ['$scope', '$json', '$filter',
+        function ($scope, $json, $filter) {
             $scope.ready = false;
 
             $json.load('about').then(function (response) {

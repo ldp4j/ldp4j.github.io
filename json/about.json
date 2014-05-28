@@ -2,7 +2,7 @@
     "heading": "About LDP4j",
     "developers": {
         "title": "Development Team",
-        "intro": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vel fringilla leo, a ornare purus. Praesent ut lorem accumsan, congue purus sagittis, tristique mi. Mauris faucibus ipsum consectetur augue lacinia laoreet. Duis condimentum ligula massa, nec suscipit neque ultricies id.",
+        "intro": "Lorem *ipsum* dolor sit amet, consectetur adipiscing elit. In vel fringilla leo, a ornare purus. Praesent ut lorem accumsan, congue purus sagittis, tristique mi. Mauris faucibus ipsum consectetur augue lacinia laoreet. Duis condimentum ligula massa, nec suscipit neque ultricies id.",
         "people": [
             {
                 "name": "MIGUEL ESTEBAN GUTIÉRREZ",
