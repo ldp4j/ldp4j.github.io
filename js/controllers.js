@@ -2,20 +2,20 @@
 
 /* Controllers */
 
-var textileSection = function (section) {
+var markdownSection = function (section) {
     if (section.paragraphs !== undefined) {
         var paragraphs = [];
         section.paragraphs.forEach(function (par) {
-            paragraphs.push(textile(par));
+            paragraphs.push(markdown.toHTML(par));
         });
 
         section.paragraphs = paragraphs;
     }
 };
 
-var textileSections = function (sections) {
+var markdownSections = function (sections) {
     sections.forEach(function (section) {
-        textileSection(section);
+        markdownSection(section);
     });
 
     return sections;
@@ -166,35 +166,33 @@ angular.module('ldp4j.controllers', [])
                 if (typeof cfg === 'object') {
                     // Issue tracker content
                     if (cfg.it !== undefined && cfg.it.sections !== undefined) {
-                        $scope.it.content = textileSections(cfg.it.sections);
+                        $scope.it.content = markdownSections(cfg.it.sections);
                     }
 
                     // Source repository content
                     if (cfg.sr !== undefined && cfg.sr.sections !== undefined) {
-                        $scope.sr.content = textileSections(cfg.sr.sections);
+                        $scope.sr.content = markdownSections(cfg.sr.sections);
                     }
 
                     // Twitter content
                     if (cfg.tw !== undefined && cfg.tw.sections !== undefined) {
-                        $scope.tw.content = textileSections(cfg.tw.sections);
+                        $scope.tw.content = markdownSections(cfg.tw.sections);
                     }
 
                     // Mailing lists content
                     if (cfg.ml !== undefined && cfg.ml.sections !== undefined) {
-                        $scope.ml.content = textileSections(cfg.ml.sections);
+                        $scope.ml.content = markdownSections(cfg.ml.sections);
                     }
 
                     // Mailing lists content
                     if (cfg.co !== undefined && cfg.co.sections !== undefined) {
-                        $scope.co.content = textileSections(cfg.co.sections);
+                        $scope.co.content = markdownSections(cfg.co.sections);
                     }
 
                     $scope.intro = cfg.intro;
                 }
 
                 $scope.ready = true;
-                prettyPrint();
-
             }, function (response) {});
         }])
     .controller('AboutController', ['$scope', '$json', '$filter',
@@ -216,8 +214,6 @@ angular.module('ldp4j.controllers', [])
     .controller('StartController', ['$scope',
         function ($scope) {
             $scope.ready = true;
-            prettyPrint();
-
         }])
     .controller('JavadocController', ['$scope',
         function ($scope) {
@@ -227,7 +223,6 @@ angular.module('ldp4j.controllers', [])
             $scope.resizeJavadoc = function () {
                 var w = $(window);
                 var footer = $('#footer').outerHeight();
-                //var top = javadoc.offset().top;
                 var newH = w.innerHeight() - 150 - footer;
 
                 javadoc.attr('height', newH + 'px');
