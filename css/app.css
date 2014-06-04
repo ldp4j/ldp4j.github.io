@@ -18,7 +18,7 @@
 .animate-show-hide.ng-hide-remove {
     -webkit-transition: 0.3s linear all;
     transition: 0.3s linear all;
-    /* remember to add this */
+    -moz-transition: 0.3s linear all;
     display: block!important;
     opacity: 1;
 }
@@ -30,6 +30,7 @@
 }
 .view-animate.ng-enter {
     -webkit-transition: all linear 0.5s;
+    -moz-transition: all linear 0.5s;
     transition: all linear 0.5s;
     display: block!important;
     opacity: 0;
@@ -54,6 +55,7 @@
 .animated {
     -webkit-transition: all ease-out 0.4s;
     transition: all ease-out 0.4s;
+    -moz-transition: all ease-out 0.4s;
 }
 .thumbnail {
     margin-bottom: 0px;
@@ -70,23 +72,15 @@
 .click-panel>h2 {
     -webkit-transition: all linear 3s;
     transition: all linear 3s;
+    -moz-transition: all linear 3s;
 }
 .click-panel>h2:hover {
     font-weight: bold;
 }
-/*
-kbd {
-    padding: 2px 4px;
-    font-size: 90%;
-    color: #fff;
-    background-color: #333;
-    border-radius: 3px;
-    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .25);
-}*/
-
 .jumbotron {
     background-image: -webkit-linear-gradient(top, #4C9CE2 60%, #D8D4D4 100%);
     background-image: linear-gradient(to bottom, #4C9CE2 60%, #D8D4D4 100%);
+    background-image: -moz-linear-gradient(to bottom, #4C9CE2 60%, #D8D4D4 100%);
     color: snow;
 }
 .jheader {
