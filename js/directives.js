@@ -27,7 +27,7 @@ directive('postRepeat', ['$text',
                     }
                 };
             }
-        }
+        };
     }]).directive('md', ['$text',
     function ($text) {
         return {
@@ -207,12 +207,16 @@ directive('postRepeat', ['$text',
                         });
 
                         if (attrs.fixed !== undefined) {
-                            updateButton(btn);
+                            scope.$watch('', function () {
+                                updateButton(btn);
+                            });
                         }
 
                         $(window).resize(function () {
                             updateButton(btn);
                         });
+
+                        scope.$evalAsync(attrs.button);
                     }
                 };
             }
