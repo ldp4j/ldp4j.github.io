@@ -2,25 +2,6 @@
 
 /* Controllers */
 
-var markdownSection = function (section) {
-    if (section.paragraphs !== undefined) {
-        var paragraphs = [];
-        section.paragraphs.forEach(function (par) {
-            paragraphs.push(markdown.toHTML(par));
-        });
-
-        section.paragraphs = paragraphs;
-    }
-};
-
-var markdownSections = function (sections) {
-    sections.forEach(function (section) {
-        markdownSection(section);
-    });
-
-    return sections;
-};
-
 angular.module('ldp4j.controllers', []).value('version', '0.2')
     .controller('FooterController', ['$scope', '$json',
         function ($scope, $json) {
@@ -121,11 +102,6 @@ angular.module('ldp4j.controllers', []).value('version', '0.2')
             });
 
             $scope.texts = setup.data;
-            /*$scope.texts.it.sections = markdownSections(setup.data.it.sections);
-            $scope.texts.sr.sections = markdownSections(setup.data.sr.sections);
-            $scope.texts.tw.sections = markdownSections(setup.data.tw.sections);
-            $scope.texts.ml.sections = markdownSections(setup.data.ml.sections);
-            $scope.texts.co.sections = markdownSections(setup.data.co.sections);*/
         }])
     .controller('AboutController', ['$scope', 'setup',
         function ($scope, setup) {

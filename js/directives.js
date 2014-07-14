@@ -3,32 +3,9 @@
 var directives = angular.module('ldp4j.directives', []).value('version', '0.2');
 
 directives.
-directive('appVersion', ['version',
-    function (version) {
-        return function (scope, elm, attrs) {
-            elm.text(version);
-        };
-    }]).
-directive('postRepeat', ['$text',
-    function ($text) {
-        return {
-            restrict: 'A',
-            compile: function (tElem, attrs) {
-                return function (scope, element, attrs) {
-                    if (scope.$last) {
-                        // iteration is complete, do whatever post-processing
-                        // is necessary
-                        var md = element.find('#md-cand');
-                        var html = md.html();
-                        html = $text.html(html);
-                        md.html(html);
-                        prettyPrint();
-
-                    }
-                };
-            }
-        };
-    }]).directive('md', ['$text',
+// 'md' directive
+// Markdown and prettify of html content
+directive('md', ['$text',
     function ($text) {
         return {
             restrict: 'A',
@@ -46,8 +23,10 @@ directive('postRepeat', ['$text',
                 };
             }
         };
-    }]).directive('column', ['$text',
-    function ($text) {
+        // 'column' directive
+        // 
+    }]).directive('column',
+    function () {
         return {
             restrict: 'E',
             compile: function (tElem, attrs) {
@@ -56,18 +35,10 @@ directive('postRepeat', ['$text',
 
                 tElem.css('display', 'block');
 
-                return function (scope, elem, attrs) {
-                    /*var md = elem.find('#md-cand');
-
-                    var html = md.html();
-                    html = $text.html(html);
-                    elem.html(html);
-                    prettyPrint();
-                    console.log(html);*/
-                };
+                return function (scope, elem, attrs) {};
             }
         };
-    }]).directive('contact',
+    }).directive('contact',
     function () {
         return {
             restrict: 'E',
