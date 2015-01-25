@@ -1,0 +1,86 @@
+##----------------------------------------------------------------------------##
+#     __    __    __    __    __    __    __    __    __    __    __    __     #
+#  __/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__  #
+# /  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \ #
+# \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/ #
+# /  \__/                                                                 /  \ #
+# \__/    ______                                 __  _                    \__/ #
+# /  \   /_  __/________ _____  _________ ______/ /_(_)___  ____  _____   /  \ #
+# \__/    / / / ___/ __ `/ __ \/ ___/ __ `/ ___/ __/ / __ \/ __ \/ ___/   \__/ #
+# /  \   / / / /  / /_/ / / / (__  ) /_/ / /__/ /_/ / /_/ / / / (__  )    /  \ #
+# \__/  /_/ /_/   \__,_/_/ /_/____/\__,_/\___/\__/_/\____/_/ /_/____/     \__/ #
+# /  \                                                                    /  \ #
+# \__/                __   __        __                  __               \__/ #
+# /  \          \  / /  \ /  `  /\  |__) |  | |     /\  |__) \ /          /  \ #
+# \__/           \/  \__/ \__, /~~\ |__) \__/ |___ /~~\ |  \  |           \__/ #
+# /  \__                                                                  /  \ #
+# \__/  \__    __    __    __    __    __    __    __    __    __    __   \__/ #
+# /  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \ #
+# \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/ #
+#    \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/    #
+#                                                                              #
+##----------------------------------------------------------------------------##
+#                             __   __             ___                          #
+#  |\/|  /\  | |\ |     |\/| /  \ |  \ |  | |    |__                           #
+#  |  | /~~\ | | \|     |  | \__/ |__/ \__/ |___ |___                          # 
+#                                                                              #
+##----------------------------------------------------------------------------##
+
+##-- PREFIXES ----------------------------------------------------------------##
+
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+@prefix tx:   <http://delicias.dia.fi.upm.es/alm-istack/transactions/transactions#> .
+@prefix svc:  <http://delicias.dia.fi.upm.es/alm-istack/transactions/services#> .
+
+##-- MODULE DECLARATION ------------------------------------------------------##
+
+@base <http://delicias.dia.fi.upm.es/alm-istack/transactions/> .
+
+<transactions> rdf:type owl:Ontology .
+
+##-- IMPORTS -----------------------------------------------------------------##
+
+<transactions> owl:imports 
+  <transaction_service.ttl> , <resource_service.ttl> .
+
+##-- EXTENSIONS --------------------------------------------------------------##
+
+_:DisjointOperationSubClasses a owl:AllDisjointClasses ;
+  owl:members (
+    tx:TransactionOperation
+    tx:LockOperation
+  ) .
+
+_:DisjointCommandSubClasses a owl:AllDisjointClasses ;
+  owl:members (
+    tx:TransactionCommand
+    tx:LockCommand
+  ) .
+
+_:DisjointServiceSubClasses a owl:AllDisjointClasses ;
+  owl:members (
+    tx:Transaction
+    tx:Lock
+  ) .
+
+_:DisjointCapabilititesSubClasses a owl:AllDisjointClasses ;
+  owl:members (
+    tx:TransactionCapabilities
+    tx:LockCapabilities
+  ) .
+
+_:DisjointHypermediaControlSubClasses a owl:AllDisjointClasses ;
+  owl:members (
+    tx:TransactionControl
+    tx:LockControl
+  ) .
+
+##----------------------------------------------------------------------------##
+#  MODULE END                                                                  #
+##----------------------------------------------------------------------------##
+
+
