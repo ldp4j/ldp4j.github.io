@@ -38,16 +38,9 @@
 
 ##-- MODULE DECLARATION ------------------------------------------------------##
 
-@base <http://delicias.dia.fi.upm.es/alm-istack/transactions/> .
+@base <http://delicias.dia.fi.upm.es/alm-istack/transactions/#> .
 
 <transactions> rdf:type owl:Ontology .
-
-##-- IMPORTS -----------------------------------------------------------------##
-
-<transactions> owl:imports 
-  <transaction_service.ttl> , <resource_service.ttl> .
-
-##-- EXTENSIONS --------------------------------------------------------------##
 
 _:DisjointOperationSubClasses a owl:AllDisjointClasses ;
   owl:members (
@@ -83,4 +76,1105 @@ _:DisjointHypermediaControlSubClasses a owl:AllDisjointClasses ;
 #  MODULE END                                                                  #
 ##----------------------------------------------------------------------------##
 
+##----------------------------------------------------------------------------##
+#     __    __    __    __    __    __    __    __    __    __    __    __     #
+#  __/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__  #
+# /  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \ #
+# \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/ #
+# /  \__/                                                                 /  \ #
+# \__/    ______                                 __  _                    \__/ #
+# /  \   /_  __/________ _____  _________ ______/ /_(_)___  ____  _____   /  \ #
+# \__/    / / / ___/ __ `/ __ \/ ___/ __ `/ ___/ __/ / __ \/ __ \/ ___/   \__/ #
+# /  \   / / / /  / /_/ / / / (__  ) /_/ / /__/ /_/ / /_/ / / / (__  )    /  \ #
+# \__/  /_/ /_/   \__,_/_/ /_/____/\__,_/\___/\__/_/\____/_/ /_/____/     \__/ #
+# /  \                                                                    /  \ #
+# \__/                __   __        __                  __               \__/ #
+# /  \          \  / /  \ /  `  /\  |__) |  | |     /\  |__) \ /          /  \ #
+# \__/           \/  \__/ \__, /~~\ |__) \__/ |___ /~~\ |  \  |           \__/ #
+# /  \__                                                                  /  \ #
+# \__/  \__    __    __    __    __    __    __    __    __    __    __   \__/ #
+# /  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \ #
+# \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/ #
+#    \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/    #
+#                                                                              #
+##----------------------------------------------------------------------------##
+#  ___  __             __        __  ___    __                                 #
+#   |  |__)  /\  |\ | /__`  /\  /  `  |  | /  \ |\ |                           #
+#   |  |  \ /~~\ | \| .__/ /~~\ \__,  |  | \__/ | \|                           # 
+#   __   ___  __          __   ___           __   __             ___           #
+#  /__` |__  |__) \  / | /  ` |__      |\/| /  \ |  \ |  | |    |__            #
+#  .__/ |___ |  \  \/  | \__, |___     |  | \__/ |__/ \__/ |___ |___           #
+#                                                                              #
+##----------------------------------------------------------------------------##
 
+##-- ENUMERATIONS ------------------------------------------------------------##
+
+tx:EventType a owl:Class ;
+  owl:equivalentClass [ 
+    a owl:Class ;
+    owl:oneOf (
+      tx:Creation
+      tx:Modification
+      tx:Deletion
+    )
+  ] .
+
+##-- CLASSES -----------------------------------------------------------------##
+
+tx:TransactionCommand a owl:Class ;
+  rdfs:subClassOf svc:Command;
+  rdfs:subClassOf   [
+    a owl:Restriction ;
+    owl:onProperty svc:operation;
+    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onClass tx:TransactionOperation
+  ] , [
+    a owl:Restriction ;
+    owl:onProperty svc:target;
+    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onClass tx:Transaction
+  ] ;
+  owl:equivalentClass [ 
+     a owl:Class ;
+     owl:unionOf (
+       tx:TransactionLifecycleCommand
+       tx:NotifyCommand
+     )
+  ] .
+
+tx:TransactionLifecycleCommand a owl:Class ;
+  rdfs:subClassOf tx:TransactionCommand ;
+  owl:disjointWith tx:NotifyCommand ;
+  owl:equivalentClass [ 
+    a owl:Class ;
+    owl:unionOf (
+      tx:EnrollCommand
+      tx:CommitCommand
+      tx:RollbackCommand
+    )
+  ] .
+
+tx:EnrollCommand a owl:Class ;
+  rdfs:subClassOf tx:TransactionLifecycleCommand ;
+  owl:disjointWith tx:CommitCommand, tx:RollbackCommand ;
+   rdfs:subClassOf [ 
+    a owl:Restriction ;
+    owl:onProperty svc:operation ;
+    owl:hasValue tx:Enroll
+  ] , [
+    a owl:Restriction ;
+    owl:onProperty tx:resource;
+    owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onClass tx:TransactionalResource
+  ] .
+
+tx:CommitCommand a owl:Class ;
+  rdfs:subClassOf tx:TransactionLifecycleCommand ;
+  rdfs:subClassOf [ 
+    a owl:Restriction ;
+    owl:onProperty svc:operation ;
+    owl:hasValue tx:Commit
+  ] ;
+  owl:disjointWith tx:EnrollCommand, tx:RollbackCommand .
+
+tx:RollbackCommand a owl:Class ;
+  rdfs:subClassOf tx:TransactionLifecycleCommand ;
+  owl:disjointWith tx:EnrollCommand , tx:CommitCommand ;
+  rdfs:subClassOf [ 
+    a owl:Restriction ;
+    owl:onProperty svc:operation ;
+    owl:hasValue tx:Commit
+  ] , [
+    a owl:Restriction ;
+    owl:onProperty tx:reason;
+    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onDataRange xsd:string
+  ] .
+
+tx:NotifyCommand a owl:Class ;
+  rdfs:subClassOf tx:TransactionCommand ;
+  owl:disjointWith tx:TransactionLifecycleCommand ;
+  rdfs:subClassOf [ 
+    a owl:Restriction ;
+    owl:onProperty svc:operation ;
+    owl:hasValue tx:Notify
+  ] , [
+    a owl:Restriction ;
+    owl:onProperty tx:sourceLock;
+    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onClass tx:Lock
+  ] , [
+    a owl:Restriction ;
+    owl:onProperty tx:event;
+    owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onClass tx:Event
+  ] .
+
+tx:Event a owl:Class ;
+  rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty tx:type;
+    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onClass tx:EventType
+  ] , [
+    a owl:Restriction ;
+    owl:onProperty tx:provisionalResource;
+    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onClass tx:ProvisionalResource
+  ] .
+
+tx:TransactionCapabilities a owl:Class ;
+  rdfs:subClassOf svc:Capabilities ;
+  rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty svc:hasControl;
+    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onClass tx:TransactionControl
+  ] .
+
+tx:TransactionControl a owl:Class ;
+  rdfs:subClassOf svc:HypermediaControl ;
+  rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty svc:rel;
+    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onClass tx:TransactionOperation
+  ] .
+
+##-- EXTENSIONS --------------------------------------------------------------##
+
+tx:Transaction 
+  rdfs:subClassOf svc:Service ;
+  rdfs:subClassOf [ 
+    a owl:Restriction ;
+    owl:onProperty svc:hasCapabilities ;
+    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onClass tx:TransactionCapabilities
+  ] .
+
+tx:TransactionOperation
+  rdfs:subClassOf svc:Operation .
+
+##-- PROPERTIES --------------------------------------------------------------##
+
+tx:sourceLock a owl:ObjectProperty ;
+  rdfs:domain tx:NotifyCommand ;
+  rdfs:range tx:Lock .
+
+tx:event a owl:ObjectProperty ;
+  rdfs:domain tx:NotifyCommand ;
+  rdfs:range tx:Event .
+
+tx:type a owl:ObjectProperty ;
+  rdfs:domain tx:Event ;
+  rdfs:range tx:EventType .
+
+tx:provisionalResource a owl:ObjectProperty ;
+  rdfs:domain tx:Event ;
+  rdfs:range tx:ProvisionalResource .
+
+tx:resource a owl:ObjectProperty ;
+  rdfs:domain tx:EnrollCommand ;
+  rdfs:range tx:TransactionalResource .
+
+tx:exclusiveResource a owl:ObjectProperty ;
+  rdfs:subPropertyOf tx:resource .
+
+tx:sharedResource a owl:ObjectProperty ;
+  rdfs:subPropertyOf tx:resource .
+
+_:DisjointResourceSubProperties a owl:AllDisjointProperties ;
+  owl:members (
+    tx:exclusiveResource
+    tx:sharedResource
+  ) .
+
+tx:reason a owl:DatatypeProperty ;
+  rdfs:domain tx:RollbackCommand ;
+  rdfs:range xsd:string .
+
+##-- INDIVIDUALS--------------------------------------------------------------##
+
+_:DifferentEventTypes a owl:AllDifferent ;
+  owl:members (
+    tx:Creation
+    tx:Modification
+    tx:Deletion
+  ) .
+
+##----------------------------------------------------------------------------##
+#  MODULE END                                                                  #
+##----------------------------------------------------------------------------##
+
+##----------------------------------------------------------------------------##
+#     __    __    __    __    __    __    __    __    __    __    __    __     #
+#  __/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__  #
+# /  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \ #
+# \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/ #
+# /  \__/                                                                 /  \ #
+# \__/    ______                                 __  _                    \__/ #
+# /  \   /_  __/________ _____  _________ ______/ /_(_)___  ____  _____   /  \ #
+# \__/    / / / ___/ __ `/ __ \/ ___/ __ `/ ___/ __/ / __ \/ __ \/ ___/   \__/ #
+# /  \   / / / /  / /_/ / / / (__  ) /_/ / /__/ /_/ / /_/ / / / (__  )    /  \ #
+# \__/  /_/ /_/   \__,_/_/ /_/____/\__,_/\___/\__/_/\____/_/ /_/____/     \__/ #
+# /  \                                                                    /  \ #
+# \__/                __   __        __                  __               \__/ #
+# /  \          \  / /  \ /  `  /\  |__) |  | |     /\  |__) \ /          /  \ #
+# \__/           \/  \__/ \__, /~~\ |__) \__/ |___ /~~\ |  \  |           \__/ #
+# /  \__                                                                  /  \ #
+# \__/  \__    __    __    __    __    __    __    __    __    __    __   \__/ #
+# /  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \ #
+# \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/ #
+#    \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/    #
+#                                                                              #
+##----------------------------------------------------------------------------##
+#   __   ___  __   __        __   __   ___     __   ___  __          __   ___  #
+#  |__) |__  /__` /  \ |  | |__) /  ` |__     /__` |__  |__) \  / | /  ` |__   #
+#  |  \ |___ .__/ \__/ \__/ |  \ \__, |___    .__/ |___ |  \  \/  | \__, |___  # 
+#        __   __             ___                                               #
+#  |\/| /  \ |  \ |  | |    |__                                                #
+#  |  | \__/ |__/ \__/ |___ |___                                               #
+#                                                                              #
+##----------------------------------------------------------------------------##
+
+##-- CLASSES -----------------------------------------------------------------##
+
+tx:LockCommand a owl:Class ;
+  rdfs:subClassOf svc:Command;
+  rdfs:subClassOf   [
+    a owl:Restriction ;
+    owl:onProperty svc:operation;
+    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onClass tx:LockOperation
+  ] , [
+    a owl:Restriction ;
+    owl:onProperty svc:target;
+    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onClass tx:Lock
+  ] ,  [
+    a owl:Restriction ;
+    owl:onProperty tx:sourceTransaction;
+    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onClass tx:ProvisionalResource
+  ] ;
+  owl:equivalentClass [ 
+    a owl:Class ;
+    owl:unionOf (
+      tx:PrepareCommand
+      tx:ConfirmCommand
+      tx:CancelCommand
+      tx:UndoCommand
+      tx:ReleaseCommand
+    )
+  ] .
+
+_:DisjointtLockCommandSubclasses a owl:AllDisjointClasses ;
+  owl:members (
+    tx:PrepareCommand
+    tx:ConfirmCommand
+    tx:CancelCommand
+    tx:UndoCommand
+    tx:ReleaseCommand
+  ) . 
+  
+tx:LockCapabilities a owl:Class ;
+  rdfs:subClassOf svc:Capabilities .
+
+tx:LockControl a owl:Class ;
+  rdfs:subClassOf svc:HypermediaControl ;
+  rdfs:subClassOf [
+    a owl:Restriction ;
+    owl:onProperty svc:rel;
+    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onClass tx:LockOperation
+  ] .
+
+##-- EXTENSIONS --------------------------------------------------------------##
+
+tx:Lock 
+  rdfs:subClassOf svc:Service ;
+  rdfs:subClassOf [ 
+    a owl:Restriction ;
+    owl:onProperty svc:hasCapabilities ;
+    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onClass tx:LockCapabilities
+  ] .
+
+tx:LockOperation
+  rdfs:subClassOf svc:Operation.
+
+##-- PROPERTIES --------------------------------------------------------------##
+
+tx:sourceTransaction a owl:ObjectProperty ;
+  rdfs:domain tx:LockCommand ;
+  rdfs:range tx:Transaction .
+
+##----------------------------------------------------------------------------##
+#  MODULE END                                                                  #
+##----------------------------------------------------------------------------##
+
+##----------------------------------------------------------------------------##
+#     __    __    __    __    __    __    __    __    __    __    __    __     #
+#  __/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__  #
+# /  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \ #
+# \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/ #
+# /  \__/                                                                 /  \ #
+# \__/    ______                                 __  _                    \__/ #
+# /  \   /_  __/________ _____  _________ ______/ /_(_)___  ____  _____   /  \ #
+# \__/    / / / ___/ __ `/ __ \/ ___/ __ `/ ___/ __/ / __ \/ __ \/ ___/   \__/ #
+# /  \   / / / /  / /_/ / / / (__  ) /_/ / /__/ /_/ / /_/ / / / (__  )    /  \ #
+# \__/  /_/ /_/   \__,_/_/ /_/____/\__,_/\___/\__/_/\____/_/ /_/____/     \__/ #
+# /  \                                                                    /  \ #
+# \__/                __   __        __                  __               \__/ #
+# /  \          \  / /  \ /  `  /\  |__) |  | |     /\  |__) \ /          /  \ #
+# \__/           \/  \__/ \__, /~~\ |__) \__/ |___ /~~\ |  \  |           \__/ #
+# /  \__                                                                  /  \ #
+# \__/  \__    __    __    __    __    __    __    __    __    __    __   \__/ #
+# /  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \ #
+# \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/ #
+#    \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/    #
+#                                                                              #
+##----------------------------------------------------------------------------##
+#  ___  __             __        __  ___    __                                 #
+#   |  |__)  /\  |\ | /__`  /\  /  `  |  | /  \ |\ |                           #
+#   |  |  \ /~~\ | \| .__/ /~~\ \__,  |  | \__/ | \|                           # 
+#        __   __   ___                __   __             ___                  #
+#  |\/| /  \ |  \ |__  |        |\/| /  \ |  \ |  | |    |__                   #
+#  |  | \__/ |__/ |___ |___     |  | \__/ |__/ \__/ |___ |___                  #
+#                                                                              #
+##----------------------------------------------------------------------------##
+
+##-- ENUMERATIONS-------------------------------------------------------------##
+
+tx:TransactionStatus a owl:Class ;
+  owl:equivalentClass [ 
+    a owl:Class ;
+    owl:oneOf (
+      tx:Active
+      tx:InFlight
+      tx:Completed
+      tx:Failed
+    )
+  ] .
+
+tx:TransactionOperation a owl:Class ;
+  owl:equivalentClass [ 
+    a owl:Class ;
+    owl:oneOf (
+      tx:Enroll
+      tx:Commit
+      tx:Rollback
+      tx:Recover
+      tx:Notify
+    )
+  ] .
+
+##-- CLASSES -----------------------------------------------------------------##
+
+tx:TransactionalResource a owl:Class ;
+  rdfs:subClassOf [ 
+    a owl:Restriction ;
+    owl:onProperty tx:controlledBy ;
+    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onClass tx:TransactionManager
+  ] .
+  
+tx:CreatedTransactionalResource a owl:Class ;
+  rdfs:subClassOf tx:TransactionalResource ;
+  rdfs:subClassOf [ 
+    a owl:Restriction ;
+    owl:onProperty tx:uid ;
+    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onDataRange xsd:string
+  ] . 
+
+tx:CreatedTransactionalResource 
+  owl:hasKey (
+    tx:uid
+  ) .
+
+tx:TransactionManager a owl:Class .
+
+tx:Transaction a owl:Class ;
+  rdfs:subClassOf [ 
+    a owl:Restriction ;
+    owl:onProperty tx:hasStatus ;
+    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onClass tx:TransactionStatus
+  ] ;
+  owl:equivalentClass [ 
+    a owl:Class ;
+    owl:unionOf (
+      tx:OngoingTransaction
+      tx:FinishedTransaction
+    )
+  ] .
+
+tx:OngoingTransaction a owl:Class ;
+  rdfs:subClassOf tx:Transaction ;
+  owl:disjointWith tx:FinishedTransaction ;
+  owl:equivalentClass [ 
+    a owl:Class ;
+    owl:unionOf (
+      tx:ActiveTransaction
+      tx:InFlightTransaction
+    )
+  ] .
+
+tx:ActiveTransaction a owl:Class ;
+  rdfs:subClassOf tx:OngoingTransaction ;
+  owl:disjointWith tx:InFlightTransaction ;
+  rdfs:subClassOf [ 
+    a owl:Restriction ;
+    owl:onProperty tx:hasStatus ;
+    owl:hasValue tx:Active
+  ] .
+
+tx:InFlightTransaction a owl:Class ;
+  rdfs:subClassOf tx:OngoingTransaction ;
+  owl:disjointWith tx:ActiveTransaction ;
+  rdfs:subClassOf [ 
+    a owl:Restriction ;
+    owl:onProperty tx:ongoingOperation ;
+    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onClass tx:TransactionOperation
+  ] ;
+  rdfs:subClassOf [ 
+    a owl:Restriction ;
+    owl:onProperty tx:hasStatus ;
+    owl:hasValue tx:InFlight
+  ] .
+
+tx:FinishedTransaction a owl:Class ;
+  rdfs:subClassOf tx:Transaction ;
+  owl:disjointWith tx:OngoingTransaction ;
+  rdfs:subClassOf [ 
+    a owl:Restriction ;
+    owl:onProperty tx:lastOperation ;
+    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onClass tx:TransactionOperation
+  ] ;
+  owl:equivalentClass [ 
+     a owl:Class ;
+     owl:unionOf (
+       tx:CompletedTransaction
+       tx:FailedTransaction
+     )
+  ] .
+
+tx:CompletedTransaction a owl:Class ;
+  rdfs:subClassOf tx:FinishedTransaction ;
+  owl:disjointWith tx:FailedTransaction ;
+  rdfs:subClassOf [ 
+    a owl:Restriction ;
+    owl:onProperty tx:hasStatus ;
+    owl:hasValue tx:Completed
+  ] ;
+  owl:equivalentClass [ 
+     a owl:Class ;
+     owl:unionOf (
+       tx:CommittedTransaction
+       tx:RolledbackTransaction
+     )
+  ] .
+
+tx:CommittedTransaction a owl:Class ;
+  rdfs:subClassOf tx:CompletedTransaction ;
+  owl:disjointWith tx:RolledbackTransaction ;
+  rdfs:subClassOf [ 
+    a owl:Restriction ;
+    owl:onProperty tx:lastOperation ;
+    owl:hasValue tx:Commit
+  ] .
+
+tx:RolledbackTransaction a owl:Class ;
+  rdfs:subClassOf tx:CompletedTransaction ;
+  owl:disjointWith tx:CommittedTransaction ;
+  rdfs:subClassOf [ 
+    a owl:Restriction ;
+    owl:onProperty tx:lastOperation ;
+    owl:hasValue tx:Rollback
+  ] .
+
+tx:FailedTransaction a owl:Class ;
+  rdfs:subClassOf tx:FinishedTransaction ;
+  owl:disjointWith tx:CompletedTransaction ;
+  rdfs:subClassOf [ 
+    a owl:Restriction ;
+    owl:onProperty tx:hasStatus ;
+    owl:hasValue tx:Failed
+  ] ;
+  owl:equivalentClass [ 
+     a owl:Class ;
+     owl:unionOf (
+       tx:RecoveredTransaction
+       tx:UnrecoveredTransaction
+     )
+  ] .
+
+tx:RecoveredTransaction a owl:Class ;
+  rdfs:subClassOf tx:FailedTransaction ;
+  owl:disjointWith tx:UnrecoveredTransaction .
+
+tx:UnrecoveredTransaction a owl:Class ;
+  rdfs:subClassOf tx:FailedTransaction ;
+  owl:disjointWith tx:RecoveredTransaction ;
+  owl:equivalentClass [ 
+     a owl:Class ;
+     owl:unionOf (
+       tx:RollbackFailedTransaction
+       tx:RecoveryFailedTransaction
+     )
+  ] .
+
+tx:RollbackFailedTransaction a owl:Class ;
+  rdfs:subClassOf tx:UnrecoveredTransaction ;
+  owl:disjointWith tx:RecoveryFailedTransaction ;
+  rdfs:subClassOf [ 
+    a owl:Restriction ;
+    owl:onProperty tx:lastOperation ;
+    owl:hasValue tx:Rollback
+  ] .
+
+tx:RecoveryFailedTransaction a owl:Class ;
+  rdfs:subClassOf tx:UnrecoveredTransaction ;
+  owl:disjointWith tx:RollbackFailedTransaction ;
+  rdfs:subClassOf [ 
+    a owl:Restriction ;
+    owl:onProperty tx:lastOperation ;
+    owl:hasValue tx:Recover
+  ] .
+
+##-- EXTENSIONS --------------------------------------------------------------##
+
+tx:ProvisionalResource 
+  rdfs:subClassOf [ 
+    a owl:Restriction ;
+    owl:onProperty tx:associatedTo ;
+    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onClass tx:TransactionalResource
+  ] , [ 
+    a owl:Restriction ;
+    owl:onProperty tx:uid ;
+    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onDataRange xsd:string
+  ] .
+
+tx:ProvisionalResource 
+  owl:hasKey ( 
+    tx:uid
+    tx:associatedTo
+  ) .
+ 
+##-- PROPERTIES --------------------------------------------------------------##
+
+tx:controlledBy a owl:ObjectProperty ;
+  rdfs:domain tx:TransactionalResource ;
+  rdfs:range tx:TransactionManager .
+
+tx:managesTransaction a owl:ObjectProperty ;
+  a owl:InverseFunctionalProperty ;
+  rdfs:domain tx:TransactionManager ;
+  rdfs:range tx:Transaction .
+
+tx:involves a owl:ObjectProperty ;
+  rdfs:domain tx:Transaction ;
+  rdfs:range tx:TransactionalResource .
+
+_:DisjointInvolvesSubProperties a owl:AllDisjointProperties ;
+  owl:members (
+    tx:writes
+    tx:reads
+    tx:created
+    tx:updated
+    tx:deleted
+    tx:failed
+  ) .
+
+tx:writes a owl:ObjectProperty ;
+  a owl:InverseFunctionalProperty ;
+  rdfs:subPropertyOf tx:involves ;
+  rdfs:domain tx:OngoingTransaction .
+
+tx:reads a owl:ObjectProperty ;
+  rdfs:subPropertyOf tx:involves ;
+  rdfs:domain tx:OngoingTransaction .
+
+tx:updated a owl:ObjectProperty ;
+  rdfs:subPropertyOf tx:involves ;
+  rdfs:domain tx:CommittedTransaction .
+
+tx:deleted a owl:ObjectProperty ;
+  rdfs:subPropertyOf tx:involves ;
+  rdfs:domain tx:CommittedTransaction .
+
+tx:created a owl:ObjectProperty ;
+  rdfs:subPropertyOf tx:involves ;
+  rdfs:domain tx:CommittedTransaction ;
+  rdfs:range tx:CreatedTransactionalResource .
+
+tx:failed a owl:ObjectProperty ;
+  rdfs:subPropertyOf tx:involves ;
+  rdfs:domain tx:FailedTransaction .
+
+tx:uses a owl:ObjectProperty ;
+  a owl:InverseFunctionalProperty ;
+  rdfs:domain tx:ActiveTransaction ;
+  rdfs:range tx:ProvisionalResource .
+
+tx:associatedTo a owl:ObjectProperty ;
+  a owl:InverseFunctionalProperty ;
+  rdfs:domain tx:ProvisionalResource ;
+  rdfs:range tx:TransactionalResource .
+
+tx:uid a owl:DatatypeProperty ;
+  a owl:FunctionalProperty ;
+  rdfs:range xsd:string .
+
+tx:ongoingOperation a owl:ObjectProperty ;
+  rdfs:domain tx:InFlightTransaction ;
+  rdfs:range tx:TransactionOperation .
+
+tx:lastOperation a owl:ObjectProperty ;
+  rdfs:domain tx:FinishedTransaction ;
+  rdfs:range tx:TransactionOperation .
+
+##-- INDIVIDUALS--------------------------------------------------------------##
+
+_:DifferentTransactionStatus a owl:AllDifferent ;
+  owl:members (
+    tx:Active
+    tx:InFlight
+    tx:Completed
+    tx:Failed
+  ) .
+
+_:DifferentTransactionOperations a owl:AllDifferent ;
+  owl:members (
+    tx:Enroll
+    tx:Commit
+    tx:Rollback
+    tx:Recover
+    tx:Notify
+  ) .
+
+##----------------------------------------------------------------------------##
+#  MODULE END                                                                  #
+##----------------------------------------------------------------------------##
+##----------------------------------------------------------------------------##
+#     __    __    __    __    __    __    __    __    __    __    __    __     #
+#  __/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__  #
+# /  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \ #
+# \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/ #
+# /  \__/                                                                 /  \ #
+# \__/    ______                                 __  _                    \__/ #
+# /  \   /_  __/________ _____  _________ ______/ /_(_)___  ____  _____   /  \ #
+# \__/    / / / ___/ __ `/ __ \/ ___/ __ `/ ___/ __/ / __ \/ __ \/ ___/   \__/ #
+# /  \   / / / /  / /_/ / / / (__  ) /_/ / /__/ /_/ / /_/ / / / (__  )    /  \ #
+# \__/  /_/ /_/   \__,_/_/ /_/____/\__,_/\___/\__/_/\____/_/ /_/____/     \__/ #
+# /  \                                                                    /  \ #
+# \__/                __   __        __                  __               \__/ #
+# /  \          \  / /  \ /  `  /\  |__) |  | |     /\  |__) \ /          /  \ #
+# \__/           \/  \__/ \__, /~~\ |__) \__/ |___ /~~\ |  \  |           \__/ #
+# /  \__                                                                  /  \ #
+# \__/  \__    __    __    __    __    __    __    __    __    __    __   \__/ #
+# /  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \ #
+# \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/ #
+#    \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/    #
+#                                                                              #
+##----------------------------------------------------------------------------##
+#   __   ___  __   __        __   __   ___           __   __   ___             #
+#  |__) |__  /__` /  \ |  | |__) /  ` |__      |\/| /  \ |  \ |__  |           #
+#  |  \ |___ .__/ \__/ \__/ |  \ \__, |___     |  | \__/ |__/ |___ |___        #
+#                                                                              #
+#        __   __             ___                                               #
+#  |\/| /  \ |  \ |  | |    |__                                                #
+#  |  | \__/ |__/ \__/ |___ |___                                               #
+#                                                                              #
+##----------------------------------------------------------------------------##
+
+##-- ENUMERATIONS-------------------------------------------------------------##
+
+tx:LockStatus a owl:Class ;
+  owl:equivalentClass [ 
+    a owl:Class ;
+    owl:oneOf (
+      tx:Ready
+      tx:Prepared
+      tx:Persisted
+      tx:Released
+    )
+  ] .
+
+tx:LockOperation a owl:Class ;
+  owl:equivalentClass [ 
+    a owl:Class ;
+    owl:oneOf (
+      tx:Prepare
+      tx:Confirm
+      tx:Cancel
+      tx:Undo
+      tx:Release
+    )
+  ] .
+
+tx:AccessType a owl:Class ;
+  owl:equivalentClass [ 
+    a owl:Class ;
+    owl:oneOf (
+      tx:Exclusive
+      tx:Shared
+    )
+  ] .
+
+tx:PersistencyState a owl:Class ;
+  owl:equivalentClass [ 
+    a owl:Class ;
+    owl:oneOf (
+      tx:Persistent
+      tx:Transient
+    )
+  ] .
+
+##-- CLASSES -----------------------------------------------------------------##
+
+tx:ManageableResource a owl:Class ;
+  rdfs:subClassOf [ 
+    a owl:Restriction ;
+    owl:onProperty tx:managedBy ;
+    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onClass tx:ResourceManager
+  ] .
+  
+tx:ResourceManager a owl:Class .
+
+tx:Lock a owl:Class ;
+  rdfs:subClassOf [ 
+   a owl:Restriction ;
+   owl:onProperty tx:access;
+   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+   owl:onClass tx:AccessType
+  ] , [ 
+    a owl:Restriction ;
+    owl:onProperty tx:hasStatus;
+    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onClass tx:LockStatus
+  ] , [ 
+    a owl:Restriction ;
+    owl:onProperty tx:guards ;
+    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onClass tx:ManageableResource
+  ] ;
+  owl:equivalentClass [ 
+    a owl:Class ;
+    owl:unionOf (
+      tx:ExclusiveLock
+      tx:SharedLock
+    )
+  ] .
+
+tx:ExclusiveLock a owl:Class ;
+  rdfs:subClassOf tx:Lock ;
+  owl:disjointWith tx:SharedLock ;
+  rdfs:subClassOf [ 
+    a owl:Restriction ;
+    owl:onProperty tx:access;
+    owl:hasValue tx:Exclusive
+  ] , [ 
+    a owl:Restriction ;
+    owl:onProperty tx:hasWorkingCopy ;
+    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onClass tx:PersistentProvisionalResource
+  ] .
+
+tx:SharedLock a owl:Class ;
+  rdfs:subClassOf tx:Lock ;
+  owl:disjointWith tx:ExclusiveLock ;
+  rdfs:subClassOf [ 
+    a owl:Restriction ;
+    owl:onProperty tx:access ;
+    owl:hasValue tx:Shared
+  ] .
+
+tx:ProvisionalResource a owl:Class ;
+  rdfs:subClassOf [ 
+    a owl:Restriction ;
+    owl:onProperty tx:state ;
+    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onClass tx:PersistencyState
+  ] ;
+  owl:equivalentClass [ 
+     a owl:Class ;
+     owl:unionOf (
+       tx:TransientProvisionalResource
+       tx:PersistentProvisionalResource
+     )
+  ] .
+
+tx:TransientProvisionalResource a owl:Class ;
+  rdfs:subClassOf tx:ProvisionalResource ;
+  owl:disjointWith tx:PersistentProvisionalResource ;
+  rdfs:subClassOf [ 
+    a owl:Restriction ;
+    owl:onProperty tx:state ;
+    owl:hasValue tx:Transient
+#  ] , [ 
+#    a owl:Restriction ;
+#    owl:onProperty tx:dependsOn ;
+#    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+#    owl:onClass tx:ProvisionalResource
+  ] .
+
+tx:PersistentProvisionalResource a owl:Class ;
+  rdfs:subClassOf tx:ProvisionalResource ;
+  owl:disjointWith tx:TransientProvisionalResource ;
+  rdfs:subClassOf [ 
+    a owl:Restriction ;
+    owl:onProperty tx:state ;
+    owl:hasValue tx:Persistent
+  ] .
+
+##-- PROPERTIES --------------------------------------------------------------##
+
+tx:managedBy a owl:ObjectProperty ;
+  rdfs:domain tx:ManageableResource ;
+  rdfs:range tx:ResourceManager .
+
+tx:managesLock a owl:ObjectProperty ;
+  a owl:InverseFunctionalProperty ;
+  rdfs:domain tx:ActiveTransaction ;
+  rdfs:range tx:Lock .
+
+tx:access a owl:ObjectProperty ;
+  rdfs:domain tx:Lock ;
+  rdfs:range tx:AccessType .
+
+tx:guards a owl:ObjectProperty ;
+  rdfs:domain tx:Lock ;
+  rdfs:range tx:ManageableResource .
+
+tx:hasProvisionalResource a owl:ObjectProperty ;
+  a owl:InverseFunctionalProperty ;
+  rdfs:domain tx:ExclusiveLock ;
+  rdfs:range tx:ProvisionalResource .
+
+tx:ownedBy a owl:ObjectProperty ;
+  owl:inverseOf tx:hasWorkingCopy .
+
+tx:hasWorkingCopy a owl:ObjectProperty ;
+  a owl:InverseFunctionalProperty ;
+  rdfs:subPropertyOf tx:hasProvisionalResource ;
+  rdfs:range tx:PersistentProvisionalResource .
+
+tx:hasTransientCopy a owl:ObjectProperty ;
+  a owl:InverseFunctionalProperty ;
+  rdfs:subPropertyOf tx:hasProvisionalResource ;
+  rdfs:range tx:TransientProvisionalResource .
+
+_:DisjointHasWorkingCopySubProperties a owl:AllDisjointProperties ;
+  owl:members (
+    tx:hasWorkingCopy
+    tx:hasTransientCopy
+  ) .
+
+# SEMANTICS: Functional, InverseFunctional, Irreflexive, Asymmetric
+tx:dependsOn a owl:ObjectProperty ;
+  a owl:TransitiveProperty ;
+#  a owl:FunctionalProperty ;
+#  a owl:IrreflexiveProperty ;
+#  a owl:AsymmetricProperty ;
+  rdfs:domain tx:TransientProvisionalResource ;
+  rdfs:range tx:ProvisionalResource .
+
+tx:hasDependant a owl:ObjectProperty ;
+  owl:inverseOf tx:dependsOn .
+
+tx:isWorkingCopyOf a owl:ObjectProperty .
+
+tx:isWorkingCopyOf
+  owl:propertyChainAxiom (
+    tx:ownedBy
+    tx:guards
+  ) .
+
+tx:hasNestedTransientCopy a owl:ObjectProperty .
+
+tx:hasNestedTransientCopy
+  owl:propertyChainAxiom (
+    tx:hasWorkingCopy
+    tx:hasDependant
+  ) .
+
+tx:state a owl:ObjectProperty ;
+  rdfs:domain tx:ProvisionalResource ;
+  rdfs:range tx:PersistencyState .
+
+##-- INDIVIDUALS--------------------------------------------------------------##
+
+_:DifferentLockStatus a owl:AllDifferent ;
+  owl:members (
+    tx:Ready
+    tx:Prepared
+    tx:Persisted
+    tx:Released
+  ) .
+_:DifferentLockOperations a owl:AllDifferent ;
+  owl:members (
+      tx:Prepare
+      tx:Confirm
+      tx:Cancel
+      tx:Undo
+      tx:Release
+  ) .
+
+_:DifferentAccessTypes a owl:AllDifferent ;
+  owl:members (
+    tx:Exclusive
+    tx:Shared
+  ) .
+
+_:DifferentPersistencyStates a owl:AllDifferent ;
+  owl:members (
+    tx:Persistent
+    tx:Transient
+  ) .
+
+##----------------------------------------------------------------------------##
+#  MODULE END                                                                  #
+##----------------------------------------------------------------------------##
+
+##----------------------------------------------------------------------------##
+#     __    __    __    __    __    __    __    __    __    __    __    __     #
+#  __/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__  #
+# /  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \ #
+# \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/ #
+# /  \__/                                                                 /  \ #
+# \__/    ______                                 __  _                    \__/ #
+# /  \   /_  __/________ _____  _________ ______/ /_(_)___  ____  _____   /  \ #
+# \__/    / / / ___/ __ `/ __ \/ ___/ __ `/ ___/ __/ / __ \/ __ \/ ___/   \__/ #
+# /  \   / / / /  / /_/ / / / (__  ) /_/ / /__/ /_/ / /_/ / / / (__  )    /  \ #
+# \__/  /_/ /_/   \__,_/_/ /_/____/\__,_/\___/\__/_/\____/_/ /_/____/     \__/ #
+# /  \                                                                    /  \ #
+# \__/                __   __        __                  __               \__/ #
+# /  \          \  / /  \ /  `  /\  |__) |  | |     /\  |__) \ /          /  \ #
+# \__/           \/  \__/ \__, /~~\ |__) \__/ |___ /~~\ |  \  |           \__/ #
+# /  \__                                                                  /  \ #
+# \__/  \__    __    __    __    __    __    __    __    __    __    __   \__/ #
+# /  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \ #
+# \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/ #
+#    \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/    #
+#                                                                              #
+##----------------------------------------------------------------------------##
+#   __   ___  __          __   ___           __   __             ___           #
+#  /__` |__  |__) \  / | /  ` |__      |\/| /  \ |  \ |  | |    |__            #
+#  .__/ |___ |  \  \/  | \__, |___     |  | \__/ |__/ \__/ |___ |___           #
+#                                                                              #
+##----------------------------------------------------------------------------##
+
+##-- CLASSES -----------------------------------------------------------------##
+
+svc:Capabilities a owl:Class .
+
+svc:HypermediaControl a owl:Class .
+
+svc:Controller a owl:Class .
+
+svc:Operation a owl:Class .
+
+svc:Service a owl:Class ;
+  rdfs:subClassOf [ 
+    a owl:Restriction ;
+    owl:onProperty svc:hasCapabilities;
+    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onClass svc:Capabilities
+  ] .
+
+svc:Command a owl:Class ;
+  rdfs:subClassOf [ 
+    a owl:Restriction ;
+    owl:onProperty svc:operation;
+    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onClass svc:Operation
+  ] , [ 
+    a owl:Restriction ;
+    owl:onProperty svc:target;
+    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    owl:onClass svc:Service
+  ] .
+
+##-- PROPERTIES --------------------------------------------------------------##
+
+svc:hasCapabilities a owl:ObjectProperty ;
+  a owl:FunctionalProperty ;
+  rdfs:domain svc:Service;
+  rdfs:range svc:Capabilities.
+
+svc:hasControl a owl:ObjectProperty ;
+  rdfs:domain svc:Capabilities;
+  rdfs:range svc:HypermediaControl.
+
+svc:link a owl:DatatypeProperty ;
+  a owl:FunctionalProperty ;
+  rdfs:domain svc:HypermediaControl ;
+  rdfs:range svc:Controller.
+
+svc:rel a owl:ObjectProperty ;
+  a owl:FunctionalProperty ;
+  rdfs:domain svc:HypermediaControl;
+  rdfs:range svc:Operation.
+
+svc:operation a owl:ObjectProperty ;
+  a owl:FunctionalProperty ;
+  rdfs:domain svc:Command;
+  rdfs:range svc:Operation.
+
+svc:target a owl:ObjectProperty ;
+  a owl:FunctionalProperty ;
+  rdfs:domain svc:Command;
+  rdfs:range svc:Service.
+
+##----------------------------------------------------------------------------##
+#  MODULE END                                                                  #
+##----------------------------------------------------------------------------##
+
+##----------------------------------------------------------------------------##
+#     __    __    __    __    __    __    __    __    __    __    __    __     #
+#  __/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__  #
+# /  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \ #
+# \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/ #
+# /  \__/                                                                 /  \ #
+# \__/    ______                                 __  _                    \__/ #
+# /  \   /_  __/________ _____  _________ ______/ /_(_)___  ____  _____   /  \ #
+# \__/    / / / ___/ __ `/ __ \/ ___/ __ `/ ___/ __/ / __ \/ __ \/ ___/   \__/ #
+# /  \   / / / /  / /_/ / / / (__  ) /_/ / /__/ /_/ / /_/ / / / (__  )    /  \ #
+# \__/  /_/ /_/   \__,_/_/ /_/____/\__,_/\___/\__/_/\____/_/ /_/____/     \__/ #
+# /  \                                                                    /  \ #
+# \__/                __   __        __                  __               \__/ #
+# /  \          \  / /  \ /  `  /\  |__) |  | |     /\  |__) \ /          /  \ #
+# \__/           \/  \__/ \__, /~~\ |__) \__/ |___ /~~\ |  \  |           \__/ #
+# /  \__                                                                  /  \ #
+# \__/  \__    __    __    __    __    __    __    __    __    __    __   \__/ #
+# /  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \ #
+# \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/ #
+#    \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/    #
+#                                                                              #
+##----------------------------------------------------------------------------##
+#   __   __               __                 __   __             ___           #
+#  /  ` /  \  |\/|  |\/| /  \ |\ |     |\/| /  \ |  \ |  | |    |__            #
+#  \__, \__/  |  |  |  | \__/ | \|     |  | \__/ |__/ \__/ |___ |___           # 
+#                                                                              #
+##----------------------------------------------------------------------------##
+
+##-- CLASSES -----------------------------------------------------------------##
+
+tx:Status a owl:Class .
+
+##-- PROPERTIES --------------------------------------------------------------##
+
+tx:hasStatus a owl:ObjectProperty ;
+  a owl:FunctionalProperty ;
+  rdfs:range tx:Status .
+
+##----------------------------------------------------------------------------##
+#  MODULE END                                                                  #
+##----------------------------------------------------------------------------##
