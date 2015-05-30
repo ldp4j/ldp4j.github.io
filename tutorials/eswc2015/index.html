@@ -83,13 +83,20 @@
         </ul>
         <p>These questions will be answered in a practical way with explanatory examples and will be elaborated in the hands-on exercises in practical sessions.</p>
         
-        <h3 id="agenda">Draft Agenda</h3>
+        <h3 id="agenda">Agenda</h3>
         <p>The scope of the tutorial includes an introduction to the LDP specification and in-depth discussion on how the LDP protocol can be used to build read-write Linked Data applications covering both theoretical and practical aspects.</p>
         <p>The tutorial consists of three main sessions and the following paragraphs provide the objective, content, and the methodology used in each session of the tutorial:</p>
         <ol>
-            <li>Introduction to W3C Linked Data Platform and the LDP4j framework (1 hour)</li>
-            <li>Design considerations of building an interoperable read-write Linked Data application (30 mins)</li>
-            <li>Hands-on - Building a read-write Linked Data application from the scratch (1 hour 30 mins)</li>
+            <li>Introduction to W3C Linked Data Platform 1.0 Specification (1 hour)</li>
+            <li>Design considerations of building an interoperable read-write Linked Data application (15 mins)</li>
+            <li>LDP4j 101 (30 mins)</li>
+            <li>Hands-on session (50 mins)
+                <ul>
+                    <li>Recipe for using LDP4j</li>
+                    <li>An example read-write Linked Data application with LDP4j </li>
+                </ul>
+            </li>
+            <li>Concluding remarks (10 mins)</li>
         </ol>
         
         <h3 id="audience">Intended audiences</h3>
@@ -102,16 +109,16 @@
             <li>Learn how the LDP standard can be used to build interoperable read-write Linked Data applications</li>
             <li>Understand the design considerations of read-write Linked Data applications</li>
             <li>Learn how build read-write Linked Data applications using the LDP4j framework </li>
-            <li>Understand the challenges and limitations of the Linked Data Platform specification</li>
         </ul>
         
         <h3 id="req">Requirements</h3>
         <p>For actively participating in the hands-on -sessions, the attendees are requested bring their own laptop and have the following software installed in their computer:</p>
         <ul>
-            <li>JDK 1.7+ installed</li>
-            <li>Maven 3.x installed</li>
+            <li><a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html">JDK 1.7+</a> installed</li>
+            <li><a href="http://maven.apache.org/download.cgi">Maven 3.x</a> installed</li>
             <li>Any IDE (IntelliJ, Eclipse, etc.)</li>
-            <li>A Git client (optional, the materials will be distributed in a thumb drive too)</li>
+            <li>A Git client</li>
+            <li>REST client add-on for your preferred browser (e.g., <a href="https://chrome.google.com/webstore/detail/advanced-rest-client/hgmloofddffdnphfgcellkdfbfbjeloo">Advanced REST client (Chrome)</a>, <a href="https://chrome.google.com/webstore/detail/rest-console/cokgbflfommojglbmbpenpphppikmonn?hl=en">REST Console (Chrome)</a>, <a href="https://addons.mozilla.org/en-US/firefox/addon/restclient/">REST Clinet (Firefox)</a> )</li>
         </ul>
                 
         <h3>
@@ -119,11 +126,11 @@
             Presenters
         </h3>
         
-        <p>Miguel Esteban Gutierrez is a software engineer working at the Center for Open Middleware of the Universidad Politecnica de Madrid (UPM)  and doctoral candidate at the Ontology Engineering Group also in the UPM. His research interests include enterprise-grade Linked Data-based application integration, service-oriented architectures, and RESTful designs, and architectures for RDF management. He is leading the development of the LDP4j open source framework, and participates in the W3C LDP WG. He has also collaborated on European and Spanish research projects in the Semantic Web domain, such as SEALS and OntoGrid.</p>
+                <p><strong>Miguel Esteban Gutierrez</strong> is a software engineer working at the Center for Open Middleware of the Universidad Politecnica de Madrid (UPM)  and doctoral candidate at the Ontology Engineering Group also in the UPM. His research interests include enterprise-grade Linked Data-based application integration, service-oriented architectures, and RESTful designs, and architectures for RDF management. He is leading the development of the LDP4j open source framework, and participates in the W3C LDP WG. He has also collaborated on European and Spanish research projects in the Semantic Web domain, such as SEALS and OntoGrid.</p>
         
-        <p>Nandana Mihindukulasooriya is a doctoral candidate at the Ontology Engineering Group, Universidad Politecnica de Madrid.  His research interests include Linked Data-based application integration, RESTful designs, and transactions. He is an active member of the W3C LDP WG group and acts as an editor of the W3C notes, LDP 1.0 Primer and LDP Best Practices and Guidelines. He has been involved in the LDP4j and Apache Marmotta LDP implementations. He has done several presentations and demos of the LDP specification related research work in ISWC 2013, WWW 2014, ESWC 2014, and ISWC 2014. He was a speaker of ApacheCon US 2009 and ApacheCon Europe 2012 and he has conducted various technical workshops and webinars related to Web Services and SOA on behalf of his previous employer, WSO2 Inc.</p>
+        <p><strong>Nandana Mihindukulasooriya</strong> is a doctoral candidate at the Ontology Engineering Group, Universidad Politecnica de Madrid.  His research interests include Linked Data-based application integration, RESTful designs, and transactions. He is an active member of the W3C LDP WG group and acts as an editor of the W3C notes, LDP 1.0 Primer and LDP Best Practices and Guidelines. He has been involved in the LDP4j and Apache Marmotta LDP implementations. He has done several presentations and demos of the LDP specification related research work in ISWC 2013, WWW 2014, ESWC 2014, and ISWC 2014. He was a speaker of ApacheCon US 2009 and ApacheCon Europe 2012 and he has conducted various technical workshops and webinars related to Web Services and SOA on behalf of his previous employer, WSO2 Inc.</p>
         
-        <p>Dr. Raul Garcia-Castro is Assistant Professor at the Computer Science School at Universidad Politecnica de Madrid (UPM), Spain. After three years as a software engineer, since he graduated in Computer Science (2003) he has been working at UPM in the Ontology Engineering Group in several European and Spanish research projects. His research focuses on the benchmarking of semantic technologies, ontological engineering, and application integration. In 2008 he obtained a Ph.D. in Computer Science and Artificial Intelligence at the UPM with his thesis titled “Benchmarking Semantic Web technology”, which obtained the Ph.D. Extraordinary Award at UPM. He regularly participates in standardization bodies (W3C, OASIS, AENOR) and in the program committees of the conferences and workshops that are most relevant in the field and has organised several international conferences and workshops. He is member of the W3C LDP WG group and acts as an editor of the Linked Data Platform 1.0 Test Cases document. He is involved in the LDP4j LDP implementation. You can find out more about Raúl on <a href="http://www.garcia-castro.com/">his website</a>.</p>
+        <p><strong>Dr. Raul Garcia-Castro</strong> is Assistant Professor at the Computer Science School at Universidad Politecnica de Madrid (UPM), Spain. After three years as a software engineer, since he graduated in Computer Science (2003) he has been working at UPM in the Ontology Engineering Group in several European and Spanish research projects. His research focuses on the benchmarking of semantic technologies, ontological engineering, and application integration. In 2008 he obtained a Ph.D. in Computer Science and Artificial Intelligence at the UPM with his thesis titled “Benchmarking Semantic Web technology”, which obtained the Ph.D. Extraordinary Award at UPM. He regularly participates in standardization bodies (W3C, OASIS, AENOR) and in the program committees of the conferences and workshops that are most relevant in the field and has organised several international conferences and workshops. He is member of the W3C LDP WG group and acts as an editor of the Linked Data Platform 1.0 Test Cases document. He is involved in the LDP4j LDP implementation. You can find out more about Raúl on <a href="http://www.garcia-castro.com/">his website</a>.</p>
                 
                 
         <h3 id="reg">Registration</h3>
