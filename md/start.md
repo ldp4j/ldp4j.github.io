@@ -1,241 +1,90 @@
-## What's LDP4j
+The LDP4j Framework
+===================
 
-LDP4j is a **Java-based framework for the development of read-write Linked Data applications** based on the W3C Linked Data Platform 1.0 (LDP) specification.
+LDP4j is a Java-based framework for the development of interoperable <span>read-write</span> Linked Data applications based on the LDP specification. This framework provides the components required by clients and servers for handling their communication, hiding the complexity of the protocol details from application developers and letting them focus on implementing their application-specific business logic. To achieve this, LDP4j provides the following features:
 
-This framework provides the components required by clients and servers for handling their communication, hiding the complexity of the protocol details from application developers and letting them focus on implementing their application-specific business logic.
+-   **Simplified business object handling**: the framework takes care of lifting from and lowering to an intermediate representation that can be automatically unmarshalled from or marshalled to RDF, respectively.
 
-In addition, the framework also provides a set of middleware services for the development of read-write Linked Data applications with requirements beyond the LDP specification scope.
+-   **LDP support**: the framework takes care of controlling the protocol conversation, managing all the metadata associated to the protocol in a transparent manner.
 
-## High-level Design of LDP4j
+-   **REST aware**: the framework enforces REST best practices and makes them transparent to the user, for instance, publication of RDF URIRefs.
 
-In order to facilitate the development of LDP-based applications, LDP4j provides different components that developers may use for the development of such applications, in particular: an extensible LDP Server and an extensible LDP Client. The following sections will present both components.
+-   **HTTP compliant**: the framework takes care of fulfilling the requirements prescribed by HTTP related RFCs (e.g., message Syntax and routing , conditional request processing and entity tag handling , content negotiation ).
 
-### LDP4j Server Component
+In addition, the framework plans extensions to the LDP specification by providing additional features aimed at enhancing the interoperability between LDP-based <span>read-write</span> Linked Data applications.
 
-The purpose of the LDP4j Server Component (or *LDP Server* for short) is to provide the means for publishing application-specific LDP containers and resources, abstracting developers from the particularities of the LDP protocol and letting them focus on the particular business logic behind the containers and resources themselves.
+In the following sections we will briefly introduce the architecture of LDP4j (Section 1), the application model proposed (Section 2), and the way in which the framework works (Section 3). Finally, Section 4 describes how the framework aligns with the LDP specification.
 
-The LDP Server is organized into two modules, namely: the **LDP Server API** and the **LDP Server Implementation**, both of them described below.
+Section 1. High level architecture
+----------------------------------
 
-### LDP Server API
+The LDP4j framework is organized into four building blocks, as shown in the figure below.
 
-The *LDP Server API* is divided into: (1) the **server API**, which defines entities related to different aspects of the LDP protocol that are of interest for the LDP Server (i.e., resources, content, and format); (2) the **server SPI**, which defines APIs that provide extensions to the types supported by the *server API*; (3) the **server frontend**, which provides the developers with a frontened that allows the interaction with the different services provided by the LDP Server, if required; and (4) the **developer API**, which defines the low-level interfaces and annotations that have to be used to create server-side LDP application using LDP4j.
+![LDP4j High Level Architecture](img/LDP4j_High_Level_Architecture.png)
 
-This latter part of the API provides and extensibility layer that enables the developer specify the behaviour of the LDP4j Server when dealing with LDP containers and resources. For the time being two extensibility points are provided: `org.ldp4j.server.core.ILinkedDataPlatformContainer` and `org.ldp4j.server.core.ILinkedDataPlatformResourceHandler`.
+The **application API** provides the means for developing <span>read-write</span> Linked Data applications according to the LDP4j application model that will be presented in the following section.
 
-In order to develop *direct* LDP containers, developers must implement the `org.ldp4j.server.core.ILinkedDataPlatformContainer` interface. This interface provides the means for handling the creation of LDP resources given an RDF serialization, as well as for retrieving an RDF summary of contents of one or more of the resources managed by the container. Each container must be identified by an application unique identifier. In addition, every created resource must be identified by a container unique identifier.
+The **application engine** takes care of
 
-On the other hand, the `org.ldp4j.server.core.ILinkedDataPlatformResourceHandler` interface has to be implemented for developing LDP resources. This interface provides the means for retrieving the contents of existing resources and well as for updating their contents given an RDF serialization. Resource handlers must be identified by an application unique identifier, which should match that of the container used for the creation of the resources handled by the handler.
+* handling the LDP protocol conversation,
+* carrying out any required content transformation, and
+* managing the application resources and the endpoints used for publishing such resources.
 
-If the application supports resource deletion, developers will have to extend the classes that implement the *org.ldp4j.server.core.ILinkedDataPlatformResourceHandler* in one of two ways: implement also the `org.ldp4j.server.core.Deletable` interface, or provide a method with the same signature as the *delete* method defined in the latter interface, annotated with `org.ldp4j.server.core.Delete`.
 
-#### LDP Server Implementation
+The **server frontend** handles all the server-side HTTP communication, that is, accepts incoming HTTP requests to the endpoints published by the *application engine* and returns the appropriate HTTP responses to these requests according to the dictate of the application engine.
 
-The implementation includes a [JAX-RS 1.0](http://jcp.org/aboutJava/communityprocess/final/jsr311/) based application which is published under the **/ldp** path. The application includes an *LDP container manager* and an *LDP resource handler manager*. These managers discover LDP containers and LDP resource handlers at runtime, and enable dispatching LDP-protocol requests to them using the **/ldp/containers/«containerId»** and **/ldp/resources/«containerId»/«resourceId»** paths, respectively.
+Finally, the **client frontend** handles all the client-side HTTP communication, that is, sending HTTP requests to LDP applications and processing the responses returned for these requests.
 
-The runtime discovery of LDP containers and LDP resource handlers relies on the standard *[Service Provider Mechanism](http://docs.oracle.com/javase/6/docs/api/java/util/ServiceLoader.html)* of the Java 6 SE.
+From all these building blocks, just two are meant to be directly used by <span>read-write</span> Linked Data application developers. Thus, application providers will need to use the *application API* whereas application consumers will have to use the *client frontend*. However, application providers shall also use the *client frontend* if their applications happen to also consume linked data contents from other <span>read-write</span> Linked Data applications.
 
-For the time being the implementation supports the following [LDP 1.0 LCWD2](http://www.w3.org/TR/2014/WD-ldp-20140311/) capabilities:
+Section 2. Application model
+----------------------------
 
-* **Direct Container**
-  * *Resource creation*, supporting both RDF/XML and Turtle serializations.
-  * *Container retrieval*, supporting both RDF/XML and Turtle serializations.
-* **RDF Source-based LDP Resources**
-  * *Resource retrieval*, supporting both RDF/XML and Turtle serializations.
-  * *Resource update*, supporting both RDF/XML and Turtle serializations.
-  * *Resource deletion*
+In LDP4j an *application* is defined in terms of **templates** and **handlers**. On the one hand, *templates* are used for defining the semantics of the types of **resources** managed by an application as well as to define the deployment policies of the **endpoints** that the framework will use for publishing these resources. On the other hand, *handlers* are used to implement the business logic required by the templates defined by an application.
 
-However the following caveats apply:
+![LDP4j Application Model](img/LDP4j_Application_Model.png)
 
-1. The container retrieval operations do not support the current paging functionality. Also, the method for selecting the contents of the container representation is still based on a [previous version of the specification](http://www.w3.org/TR/2013/WD-ldp-20130307/).
+Despite the resources and endpoints are managed by the framework, their contents are controlled by the application, which exchanges them with the framework via **datasets**.
 
-### LDP4j Client Component
+In addition, the number of managed resources, their type as well as their relations can be modified using **sessions** that allow a handler to manipulate **snapshots** of these resources. The figure above shows how all these concepts are related and the next figure shows how are they implemented in the *application API*.
 
-While the LDP4j Server Component is meant to help developers in publishing contents via the LDP protocol, the purpose of the LDP4j Client Component is to let developers build applications capable of consuming those contents exploiting the LDP protocol. Again, the LDP4j Client Component hides the specificities of the LDP protocol to the developer so that he only has to decide how to use those contents.
+![LDP4j Application API](img/LDP4j_Application_API.png)
 
-The LDP4j Client Component (or *LDP Client* for short) is also divided into two modules: the **LDP Client API** and the **LDP Client Implementation**, which are presented in the following paragraphs.
+The *templating annotations* allow defining templates for RDF sources and containers (basic, direct, and indirect). The annotations enable describing templates (identifier, human-name, and description) as well as how are they composed, that is, whether a resource has other resources attached (*i.e.*, subresources) or contains other resources (*i.e.*, containers).
 
-#### LDP Client API
+The *handler API* allows implementing both RDF sources and containers, where the main difference among the two is that the latter allows creating new resources. In addition, any of these handlers can be extended to support modification and/or deletion using the appropriate interfaces from the *handler extension API*
 
-The API provides the frontend to the LDP Client that developers have to use for consuming LDP contents. The frontend consists of a façade `org.ldp4j.client.LDPClientFactory` that allows creating **proxies** to containers `org.ldp4j.client.ILDPContainer` and resources `org.ldp4j.client.ILDPResources` given their URLs. For the time being, these proxies provide the client-side functionalities that match those offered by the current version of the LDP Server, that is, resource creation on containers and content retrieval on resources.
+The *data manipulation API* is organized around the **dataset**, which is a collection of **individuals** that are defined as collections of multivalued **properties**. The framework distinguishes three types of individuals depending on how these individuals are related to the resources managed by the application:
 
-#### LDP Client Implementation
+* *managed individuals* if they are associated to resources of the application and are published via and endpoint (*e.g.*, an RDF resource identified with a URIRef);
+* *local individuals* if they are associated to resources of the application but are not published (*e.g.*, an RDF resource identified with a blank node); and
+* *external individuals* if they are not associated to resources of the application (*e.g.*, URIRefs out-of-the-scope of the application).
 
-The LDP Client Implementation is also built with extensibility on mind. Thus, the implementation provides an SPI that defines the extensibility points that developers have to provide in order to create specific LDP Client implementations. In particular, one extensibility point is defined: `org.ldp4j.client.ILDPClientProvider`. This interface defines methods for creating proxies to containers and resources following the contracts defined in the LDP Client API.
+Finally the *application API* also includes the *session API* that provides the means for controlling the lifecycle of the resources owned by an application, and the *application configuration API* that provides the means for the configuration and bootstrap of the application.
 
-As in the case of the LDP Server Implementation, the runtime discovery of providers in the LDP Client façade relies on the standard Service Provider Mechanism of the Java 6 SE.
+Section 3. Execution pipeline
+-----------------------------
 
-The default provider implementation is based on JAX-RS 1.0 using a CXF implementation.
+The process used for handling the input requests is depicted in the BPMN diagram shown in Figure . The processing of a request sent by a client involves different parties: the *Server Frontend*, the *Application Engine*, and the *LDP4j application*.
 
-## Using LDP4j
+![LDP4j Execution Pipeline](img/LDP4j_Execution_Pipeline.png)
 
-### Prerequisites
+Upon receiving a request, the first task of the *Server Frontend* consists in **dispatching the request**, that is, identifying whether or not the application exposes an endpoint for handling the request. If no endpoint is available (either because it has never existed or because the endpoint has been already deleted) the appropriate HTTP client error status code is returned (*i.e.*, 404 or 410).
 
-In order to use LDP4j you''ll need the following:
+If the *Server Frontend* finds an endpoint then it proceeds to **preprocess the request**. This task consists in:
 
-* A Java SE 1.6 distribution
-* A Maven 3 distribution
-* An Apache TomEE 1.5.1 distribution. In fact any JAX-RS 1.0 capable container would suffice. Servlet 3.0/JSP 2.2 containers can be also used if they are extended with a JAX-RS implementation or the JAX-RS implementation is included in the application's WAR.
-* A Git client
+**ENUM**
 
-### Build the sources
+If the operation is not supported, content negotiation fails, the body cannot be processed, or the conditional request constraints cannot be satisfied, the appropriate HTTP client error status code is returned (*i.e.*, 405, 406, 400/415, or 412).
 
-The first step is to grab the sources from the project's Git repository:
+If the *Server Frontend* completes the preprocessing succesfully, the *Application Engine* takes over the processing of the request. Firstly, it takes care of **preparing the input data**, if available. The preparation consists in:
 
-    git clone git://github.com/ldp4j/ldp4j.git
+**ENUM**
 
-Once the repository is locally available you can build it as follows:
+If the input request LDP metadata are not consistent the appropriate HTTP client error status code is returned (*i.e.*, 409).
 
-    mvn install
+Whenever the input data has been prepared, the *Application Engine* then **creates an application session** and then transfers the control to the *LDP4j application*, in particular to the handler in charge of **executing the business logic** of the application, which will use the application session to notify which resources have to be created, modified, or deleted during the processing of the request. Depending on the operation the handler may use an input `DataSet` representation of a resource or may have to return an `DataSet` representation of the resource.
 
-### Creating a server-side LDP application
+When the handler finishes, the *Application Engine* resumes the process. The first step consists in **terminating the application session**, that is, to handle the resource and endpoint life-cycle changes specified by the *LDP4j application*. The second step consists in **enriching the response data with LDP metadata** (*e.g.*, if the representation of a container is to be retrieved, the *Application Engine* would enrich the `DataSet` returned by the *LDP4j application* with the members and the container type) taking into account the preferences specified by the client in the request (*i.e.*, via the `Prefer` header ).
 
-Using Apache TomEE as target container, in order to create a server-side application you'll just need to create a java application that includes the LDP4j Server Component and package it as a WAR.
-
-This can be done in the Maven project with the following dependency:
-
-    <dependency>
-        <groupId>org.ldp4j.framework</groupId>
-        <artifactId>ldp4j-server-depchain</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
-        <type>pom</type>
-    </dependency>
-
-A container could be implemented as follows:
-
-    package org.examples;
-
-    import java.util.Collection;
-
-    import org.ldp4j.server.Format;
-    import org.ldp4j.server.IContent;
-    import org.ldp4j.server.LinkedDataPlatformException;
-    import org.ldp4j.server.core.ILinkedDataPlatformContainer;
-
-    public class ExampleContainer implements ILinkedDataPlatformContainer {
-
-        @Override
-        public String getContainerId() {
-            return <<containerId>>;
-        }
-
-        @Override
-        public String createResource(IContent content, Format format) throws LinkedDataPlatformException {
-            <<creation logic here>>
-        }
-
-        @Override
-        public IContent getSummary(final Collection<String> resources, final Format format) throws LinkedDataPlatformException {
-            <<summarization logic hereupdate>>
-        }
-
-    }
-
-In order to make the container implementation available to the LDP4j Server, a file named **org.ldp4j.server.core.ILinkedDataPlatformContainer** has to be added to the **META-INF/services** directory of the WAR including the full qualified names of the classes that implement this interface. In our example, the file would only include the following line:
-
-    org.examples.ExampleContainer
-
-Similarly, a deletable resource handler associated to the previous container could be implemented as follows:
-
-    package org.examples;
-
-    import java.util.Collection;
-
-    import org.ldp4j.server.Format;
-    import org.ldp4j.server.IContent;
-    import org.ldp4j.server.IResource;
-    import org.ldp4j.server.LinkedDataPlatformException;
-    import org.ldp4j.server.LinkedDataPlatformServer;
-    import org.ldp4j.server.core.Deletable;
-    import org.ldp4j.server.core.DeletionException;
-    import org.ldp4j.server.core.DeletionResult;
-    import org.ldp4j.server.core.ILinkedDataPlatformResourceHandler;
-
-    public class ExampleResource implements ILinkedDataPlatformResourceHandler, Deletable {
-
-        @Override
-        public String getContainerId() {
-            return "myContainer";
-        }
-
-        @Override
-        public IResource getResource(final String id) throws LinkedDataPlatformException {
-            <<retrieval logic here>>
-        }
-
-        @Override
-        public Collection<String> getResourceList() throws LinkedDataPlatformException {
-            <<resource listing logic here>>
-        }
-
-        @Override
-        public IResource updateResource(String resourceId, final IContent content, Format format) throws LinkedDataPlatformException  {
-            <<update logic here>>
-        }
-
-        @Override
-        public DeletionResult delete(String resourceId) throws DeletionException {
-            <<deletion logic here>>
-        }
-
-    }
-
-Again, in order to make the container implementation available to the LDP4j Server, a file named **org.ldp4j.server.core.ILinkedDataPlatformResourceHandler** has to be added to the **META-INF/services** directory of the WAR including the full qualified names of the classes that implement this interface. In our example, the file would only include the following line:
-
-    org.examples.ExampleResource
-
-### Consuming LDP contents
-
-In order to consume LDP contents you'll need to create a Java application that uses the LDP4j Client. In Maven this can be done in the project with the following dependency:
-
-    <dependency>
-        <groupId>org.ldp4j.framework</groupId>
-        <artifactId>ldp4j-client-depchain</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
-        <type>pom</type>
-    </dependency>
-
-A proxy to a container located at *http://www.example.org/myContainer/* can be created as follows:
-
-    package org.examples;
-
-    import java.net.URL;
-
-    import org.ldp4j.client.ILDPContainer;
-    import org.ldp4j.client.LDPClientFactory;
-
-    public class ExampleClient {
-
-        public static void main(String[] args) {
-            String location="http://www.examples.org/myContainer";
-            try {
-                ILDPContainer containerProxy = LDPClientFactory.createContainer(new URL(location));
-                <<use proxy>>
-            } catch(Exception e) {
-                <<failure recovery>>
-            }
-        }
-
-    }
-
-Similarly, a proxy to a resource located at *http://www.example.org/myContainer/00001* can be created as follows:
-
-    package org.examples;
-
-    import java.net.URL;
-
-    import org.ldp4j.client.ILDPResource;
-    import org.ldp4j.client.LDPClientFactory;
-
-    public class ExampleClient {
-
-        public static void main(String[] args) {
-            String location="http://www.examples.org/myContainer/00001";
-            try {
-                ILDPResource resourceProxy = LDPClientFactory.createResource(new URL(location));
-                <<use proxy>>
-            } catch(Exception e) {
-                <<failure recovery>>
-            }
-        }
-
-    }
+After the application�s response data has been enriched, the *Server Frontend* finishes the processing by **preparing the response**, which consists in lowering the enriched `DataSet`, marshalling the contents RDF, and generating the required LDP headers. Finally, once the response has been created it is returned to the client.
